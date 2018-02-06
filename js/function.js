@@ -337,6 +337,7 @@ $(document).ready(function () {
                                                 _this.css('background-color', 'red');
                                                 _this.html('TEST FAIL');
                                                 _this.parent().addClass("tested");
+                                                _this.parent().removeClass("testok");
                                             });
 
 
