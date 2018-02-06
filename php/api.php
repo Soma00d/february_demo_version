@@ -71,6 +71,15 @@ $getDictionariesById = function ($id, $connexion) {
     return json_encode($result);
 };
 
+//retourne un log complet en fonction d'un id
+$getGlobalLogById = function ($id, $connexion) {
+    $resultats = $connexion->query("SELECT * FROM global_log WHERE id = $id ORDER BY id");
+    $resultats->execute();
+    $result = $resultats->fetchAll();
+
+    return json_encode($result);
+};
+
 //retourne les elements du test final en fonction d'une family id
 $getFinalTest = function ($id, $connexion) {
     $resultats = $connexion->query("SELECT * FROM dictionaries WHERE family_id = $id AND is_final = '1' ORDER BY RAND()");
@@ -83,23 +92,23 @@ $getFinalTest = function ($id, $connexion) {
 //enregistre les log d'un pretest
 $saveLogPretest = function ($connexion) {
     $jsonlog = $_POST['jsonlog'];
+    $jsoncaliblog = $_POST['jsonlog'];
     $user_sso = $_POST['sso'];
     $pn = $_POST['pn'];
     $serial = $_POST['sn'];
     $role = 'repair';
-    $type = 'diagnostic';
+    $type = 'pretest';
     $fw_fct_version = $_POST['FWfctV'];
     $sw_version = $_POST['SWv'];
-    $fw_fct_version = $_POST['FWfctV'];
     $fw_calib_version = $_POST['FWfctV'];
-    $sw_version = $_POST['SWv'];
 
-    $alim_tsui = $_POST['alimTsui'];
-    $alim_testbench = $_POST['alimTestbench'];
-    $enable_tens = $_POST['enableTens'];
-    $enable_freq = $_POST['enableFreq'];
-    $safety_tens = $_POST['safetyTens'];
-    $safety_freq = $_POST['safetyFreq'];
+    $alim_tsui = 0;
+    $alim_testbench = 0;
+    $enable_tens = 0;
+    $enable_freq = 0;
+    $safety_tens = 0;
+    $safety_freq = 0;   
+    
     
     $stmt = $connexion->prepare("INSERT INTO global_log (json_log, json_calib_log, part_number, serial_number, user_sso, role, type, fw_fct_version, fw_calib_version, sw_version, alim_tsui, alim_testbench, enable_tens, enable_freq,safety_tens, safety_freq, date) VALUES (:jsonlog, :jsoncaliblog, :partnumber, :serialnumber, :user_sso, :role, :type,:fwfctv, :fwcalibv, :swv, :alimtsui, :alimtestbench, :enabletens, :enablefreq, :safetytens, :safetyfreq, NOW())");
     $stmt->bindParam(':jsonlog', $jsonlog);
@@ -118,8 +127,11 @@ $saveLogPretest = function ($connexion) {
     $stmt->bindParam(':enablefreq', $enable_freq);
     $stmt->bindParam(':safetytens', $safety_tens);
     $stmt->bindParam(':safetyfreq', $safety_freq);
-
+    
     $stmt->execute();
+    
+    $stmt->debugDumpParams();
+    
 };
 
 //enregistre les log d'un testfinal
@@ -289,6 +301,9 @@ if (isset($_GET["function"])) {
             break;
         case "get_dictionaries_by_id":
             echo $getDictionariesById($param1, $connexion);
+            break;
+        case "get_global_log_by_id":
+            echo $getGlobalLogById($param1, $connexion);
             break;
         case "save_log_pretest":
             $saveLogPretest($connexion);
