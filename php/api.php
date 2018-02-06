@@ -83,26 +83,48 @@ $getFinalTest = function ($id, $connexion) {
 //enregistre les log d'un pretest
 $saveLogPretest = function ($connexion) {
     $jsonlog = $_POST['jsonlog'];
-    $user_sso = 'testuser';
-    $pn = 'testPN';
-    $serial = 'testSerial';
+    $user_sso = $_POST['sso'];
+    $pn = $_POST['pn'];
+    $serial = $_POST['sn'];
     $role = 'repair';
-    $type = 'pretest';
+    $type = 'diagnostic';
+    $fw_fct_version = $_POST['FWfctV'];
+    $sw_version = $_POST['SWv'];
+    $fw_fct_version = $_POST['FWfctV'];
+    $fw_calib_version = $_POST['FWfctV'];
+    $sw_version = $_POST['SWv'];
 
-    $stmt = $connexion->prepare("INSERT INTO global_log (json_log, part_number, serial_number, user_sso, role, type, date) VALUES (:jsonlog, :partnumber, :serialnumber, :user_sso, :role, :type, NOW())");
+    $alim_tsui = $_POST['alimTsui'];
+    $alim_testbench = $_POST['alimTestbench'];
+    $enable_tens = $_POST['enableTens'];
+    $enable_freq = $_POST['enableFreq'];
+    $safety_tens = $_POST['safetyTens'];
+    $safety_freq = $_POST['safetyFreq'];
+    
+    $stmt = $connexion->prepare("INSERT INTO global_log (json_log, json_calib_log, part_number, serial_number, user_sso, role, type, fw_fct_version, fw_calib_version, sw_version, alim_tsui, alim_testbench, enable_tens, enable_freq,safety_tens, safety_freq, date) VALUES (:jsonlog, :jsoncaliblog, :partnumber, :serialnumber, :user_sso, :role, :type,:fwfctv, :fwcalibv, :swv, :alimtsui, :alimtestbench, :enabletens, :enablefreq, :safetytens, :safetyfreq, NOW())");
     $stmt->bindParam(':jsonlog', $jsonlog);
+    $stmt->bindParam(':jsoncaliblog', $jsoncaliblog);
     $stmt->bindParam(':partnumber', $pn);
     $stmt->bindParam(':serialnumber', $serial);
     $stmt->bindParam(':user_sso', $user_sso);
     $stmt->bindParam(':role', $role);
     $stmt->bindParam(':type', $type);
+    $stmt->bindParam(':fwfctv', $fw_fct_version);
+    $stmt->bindParam(':fwcalibv', $fw_calib_version);
+    $stmt->bindParam(':swv', $sw_version);
+    $stmt->bindParam(':alimtsui', $alim_tsui);
+    $stmt->bindParam(':alimtestbench', $alim_testbench);
+    $stmt->bindParam(':enabletens', $enable_tens);
+    $stmt->bindParam(':enablefreq', $enable_freq);
+    $stmt->bindParam(':safetytens', $safety_tens);
+    $stmt->bindParam(':safetyfreq', $safety_freq);
 
     $stmt->execute();
 };
 
 //enregistre les log d'un testfinal
 $saveLogFinal = function ($connexion) {
-    $jsonlog = $_POST['jsonlog'];
+     $jsonlog = $_POST['jsonlog'];
     $jsoncaliblog = $_POST['jsonCalibLog'];
     $user_sso = $_POST['sso'];
     $pn = $_POST['pn'];
