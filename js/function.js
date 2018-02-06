@@ -487,7 +487,7 @@ $(document).ready(function () {
                                                             +"</div>"
                                                             +"<div class='img_calib'><img src='images/" + data[iter].photo_link + "'></div>"
                                                             + "</div>");
-                                                    joystickVerifyContainer.append("<div class='realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "'>"
+                                                    joystickVerifyContainer.append("<div class='realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "' data-minaxis='" + data[iter].threshold_min_axis + "' data-maxaxis='" + data[iter].threshold_max_axis + "' data-minzero='" + data[iter].threshold_min_zero + "' data-maxzero='" + data[iter].threshold_max_zero + "'>"
                                                             + "<div class='joystick_val_info'>"
                                                             + "<div class='title_verify'>" + data[iter].description + "</div>"
                                                             + "<button class='verify_calibration id" + data[iter].id + "' data-long='" + data[iter].calib_subindex_x + "' data-lat='" + data[iter].calib_subindex_y + "' data-id='" + data[iter].id + "'>Verify</button> "
@@ -2220,7 +2220,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "php/api.php?function=save_log_pretest",
-            data: {jsonlog: jsonLog},
+            data: {jsonlog: jsonLog, sn: serialNumber, pn: partNumber, sso: userSSO, FWfctV: FWfctV, FWcalibV: FWcalibV, SWv: SWv},
             success: function (msg) {
                 alert("Your log has been saved.");
                 $("#print_log").removeClass("hidden");
@@ -2233,6 +2233,7 @@ $(document).ready(function () {
         var msg = JSON.parse(jsonLog);
         var lineButton = "";
         var lineLed = "";
+        var lineDisplay = "";
         var lineJoystick = "";
         var lineBuzzer = "";
         for (var i = 0; i < msg.length; i++) {
@@ -2285,12 +2286,29 @@ $(document).ready(function () {
                 }
                 lineJoystick += line;
             }
+            if (msg[i].fct == "display") {
+                if (msg[i].test == "untested") {
+                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:orange'>" + msg[i].test + "</span></div>"
+                }
+                if (msg[i].test == "OK") {
+                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:green'>" + msg[i].test + "</span></div>"
+                }
+                if (msg[i].test == "FAILED") {
+                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:red'>" + msg[i].test + "</span></div>"
+                }
+                lineDisplay += line;
+            }
 
         }
         var currentdate = new Date();
-        var datetime = currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + "h" + currentdate.getMinutes();
+        var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
+        var month = currentdate.getMonth() + 1; if (String(month).length <=1){month = "0"+month};
+        var hour = currentdate.getHours(); if (String(hour).length <=1){hour = "0"+hour};
+        var minutes = currentdate.getMinutes(); if (String(minutes).length <=1){minutes = "0"+minutes};
+        var datetime = day + "/" + month + "/" + currentdate.getFullYear() + " " + hour + "h" + minutes;
+        
         var myWindow = window.open('', '', 'width=1000,height=800');
-        myWindow.document.write("<h2>PRETEST LOG RECORD - " + datetime + "</h2><div style='border:1px solid black;padding:5px;'><b>Family</b> : " + familyName + " - <b>PN</b> : " + partNumber + " - <b>SN</b> : " + serialNumber + " - <b>Firmware version</b> : 2.0.3 - <b>User SSO</b> : " + userSSO + "</div><h3>BUTTONS</h3><div>" + lineButton + "</div><h3>BUZZERS</h3><div>" + lineBuzzer + "</div><h3>BACKLIGHTS</h3><div>" + lineLed + "</div><h3>JOYSTICKS</h3><div>" + lineJoystick + "</div>");
+        myWindow.document.write("<h2>PRETEST LOG RECORD - " + datetime + "</h2><div style='border:1px solid black;padding:5px;'><b>Family</b> : " + familyName + " - <b>PN</b> : " + partNumber + " - <b>SN</b> : " + serialNumber + " - <b>Firmware version</b> :"+FWfctV+" - <b>Sofware version</b> :"+SWv+" - <b>User SSO</b> : " + userSSO + "</div><h3>BUTTONS</h3><div>" + lineButton + "</div><h3>BUZZERS</h3><div>" + lineBuzzer + "</div><h3>BACKLIGHTS</h3><div>" + lineLed + "</div><h3>DISPLAYS</h3><div>" + lineDisplay + "</div><h3>JOYSTICKS</h3><div>" + lineJoystick + "</div>");
         myWindow.document.close();
         myWindow.focus();
         myWindow.print();
@@ -2409,8 +2427,8 @@ $(document).ready(function () {
                 sendSignal(startNodeMsg)
                 sendSignalPic("1");
                 setTimeout(function () {           
-                    initial_enable_tens = currEnableF;
-                    initial_enable_freq = currEnableT;
+                    initial_enable_tens = currEnableT;
+                    initial_enable_freq = currEnableF;
                     initial_safety_tens = currSafetyT;
                     initial_safety_freq = currSafetyF;
                     console.log("on a start et on enregistre les valeurs initiales :"+initial_enable_tens+" "+initial_enable_freq+" "+initial_safety_tens+" "+initial_safety_freq)            
@@ -2947,17 +2965,20 @@ $(document).ready(function () {
                     var line = "<div style='margin-bottom:2px;border-bottom:1px solid grey;padding-bottom:2px;'><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>--</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>FAIL</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>FAIL</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_cdrh + "</span></div>"
                 }
                 lineJoystick += line;
-                alert(lineJoystick);
             }
 
         }
         for (var i = 0; i < msgCalib.length; i++){
-            var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>"
+            var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minZero+" | - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>"
             lineCalib += line;
         }
         
         var currentdate = new Date();
-        var datetime = currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + "h" + currentdate.getMinutes();
+        var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
+        var month = currentdate.getMonth() + 1; if (String(month).length <=1){month = "0"+month};
+        var hour = currentdate.getHours(); if (String(hour).length <=1){hour = "0"+hour};
+        var minutes = currentdate.getMinutes(); if (String(minutes).length <=1){minutes = "0"+minutes};
+        var datetime = day + "/" + month + "/" + currentdate.getFullYear() + " " + hour + "h" + minutes;
         var myWindow = window.open('', '', 'width=1000,height=800');
         myWindow.document.write(
                 "<h2>FINAL TEST LOG RECORD - " + datetime + "</h2>"
@@ -2992,7 +3013,7 @@ $(document).ready(function () {
                 + "<div>" + lineDisplay + "</div>"
                 + "<h3>CALIBRATION</h3>"
                 + "<h5>Test is PASS when axis raw value is in the range of acceptance from database. </h5>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Raw Data</b></span></div>"
+                + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Raw Data</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Zero Range</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Axis Range</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>"
                 + "<div>" + lineCalib + "</div>"
                 + "<h3>JOYSTICKS</h3>"
                 + "<h5>Test is PASS when axis value reaches (-)100%. </h5>"
@@ -3513,11 +3534,15 @@ $(document).ready(function () {
         $("#content_calibration .calibration_test_container .realtime_joysticks_val").each(function(){
             var symbol_name = $(this).data('symb');
             var standard_name = $(this).data('standard');
+            var min_axis = $(this).data('minaxis');
+            var max_axis = $(this).data('maxaxis');
+            var min_zero = $(this).data('minzero');
+            var max_zero = $(this).data('maxzero');
             
             $(this).find(".get_val").each(function(){
                 var description = $(this).data('descri').toUpperCase();
                 var result = $(this).html();            
-                calibLog.push({name: symbol_name, standard_name: standard_name, description: description, result: result});
+                calibLog.push({name: symbol_name, standard_name: standard_name, description: description, result: result, minAxis : min_axis, maxAxis : max_axis, minZero : min_zero, maxZero : max_zero});
             });                        
             
         });
