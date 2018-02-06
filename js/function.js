@@ -80,9 +80,9 @@ $(document).ready(function () {
     var nodeID;
     var cobID1;
     var cobID2;
-    var FWfctV = "";
-    var FWcalibV = "";
-    var SWv = "";
+    var FWfctV = "-";
+    var FWcalibV = "-";
+    var SWv = "-";
 
     var activeSearchHistoryResult = {};
 
@@ -2217,19 +2217,28 @@ $(document).ready(function () {
         console.log("------");
         jsonLog = JSON.stringify(jsonLog);
         console.log(jsonLog);
+        
+        var currentdate = new Date();
+        var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
+        var month = currentdate.getMonth() + 1; if (String(month).length <=1){month = "0"+month};
+        var hour = currentdate.getHours(); if (String(hour).length <=1){hour = "0"+hour};
+        var minutes = currentdate.getMinutes(); if (String(minutes).length <=1){minutes = "0"+minutes};
+        var datetime = day + "/" + month + "/" + currentdate.getFullYear() + " " + hour + "h" + minutes;
+        
         $.ajax({
             type: "POST",
             url: "php/api.php?function=save_log_pretest",
             data: {jsonlog: jsonLog, sn: serialNumber, pn: partNumber, sso: userSSO, FWfctV: FWfctV, FWcalibV: FWcalibV, SWv: SWv},
             success: function (msg) {
                 alert("Your log has been saved.");
+                printJsonLog(jsonLog, serialNumber, partNumber, userSSO, datetime, FWfctV, SWv);
                 $("#print_log").removeClass("hidden");
             }
         });
     }
 
     //Generation du rapport de test et affichage de la fenetre d'impression 
-    function printJsonLog(jsonLog) {
+    function printJsonLog(jsonLog, serialNumber, partNumber, userSSO, datetime, FWfctV, SWv) {
         var msg = JSON.parse(jsonLog);
         var lineButton = "";
         var lineLed = "";
@@ -2300,15 +2309,10 @@ $(document).ready(function () {
             }
 
         }
-        var currentdate = new Date();
-        var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
-        var month = currentdate.getMonth() + 1; if (String(month).length <=1){month = "0"+month};
-        var hour = currentdate.getHours(); if (String(hour).length <=1){hour = "0"+hour};
-        var minutes = currentdate.getMinutes(); if (String(minutes).length <=1){minutes = "0"+minutes};
-        var datetime = day + "/" + month + "/" + currentdate.getFullYear() + " " + hour + "h" + minutes;
+        
         
         var myWindow = window.open('', '', 'width=1000,height=800');
-        myWindow.document.write("<h2>PRETEST LOG RECORD - " + datetime + "</h2><div style='border:1px solid black;padding:5px;'><b>Family</b> : " + familyName + " - <b>PN</b> : " + partNumber + " - <b>SN</b> : " + serialNumber + " - <b>Firmware version</b> :"+FWfctV+" - <b>Sofware version</b> :"+SWv+" - <b>User SSO</b> : " + userSSO + "</div><h3>BUTTONS</h3><div>" + lineButton + "</div><h3>BUZZERS</h3><div>" + lineBuzzer + "</div><h3>BACKLIGHTS</h3><div>" + lineLed + "</div><h3>DISPLAYS</h3><div>" + lineDisplay + "</div><h3>JOYSTICKS</h3><div>" + lineJoystick + "</div>");
+        myWindow.document.write("<h2>PRETEST LOG RECORD - " + datetime + "</h2><div style='border:1px solid black;padding:5px;'><b>PN</b> : " + partNumber + " - <b>SN</b> : " + serialNumber + " - <b>Firmware version</b> :"+FWfctV+" - <b>Sofware version</b> :"+SWv+" - <b>User SSO</b> : " + userSSO + "</div><h3>BUTTONS</h3><div>" + lineButton + "</div><h3>BUZZERS</h3><div>" + lineBuzzer + "</div><h3>BACKLIGHTS</h3><div>" + lineLed + "</div><h3>DISPLAYS</h3><div>" + lineDisplay + "</div><h3>JOYSTICKS</h3><div>" + lineJoystick + "</div>");
         myWindow.document.close();
         myWindow.focus();
         myWindow.print();
@@ -2774,6 +2778,14 @@ $(document).ready(function () {
         var isCdrh;
         var isEnable;
         var isSafety;
+        
+        var currentdate = new Date();
+        var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
+        var month = currentdate.getMonth() + 1; if (String(month).length <=1){month = "0"+month};
+        var hour = currentdate.getHours(); if (String(hour).length <=1){hour = "0"+hour};
+        var minutes = currentdate.getMinutes(); if (String(minutes).length <=1){minutes = "0"+minutes};
+        var datetime = day + "/" + month + "/" + currentdate.getFullYear() + " " + hour + "h" + minutes;
+        
         $("#recap_list_t .content_recap .line").each(function () {
             name = $(this).find('.symbol').html();
             description = $(this).find('.description').html();
@@ -2792,7 +2804,7 @@ $(document).ready(function () {
         });
         jsonLogFinal = JSON.stringify(jsonLogFinal);
         console.log(jsonLogFinal);
-
+        
 
         $.ajax({
             type: "POST",
@@ -2800,13 +2812,13 @@ $(document).ready(function () {
             data: {jsonlog: jsonLogFinal, sn: serialNumber, pn: partNumber, sso: userSSO, FWfctV: FWfctV, FWcalibV: FWcalibV, SWv: SWv, enableTens: initial_enable_tens, enableFreq: initial_enable_freq, safetyTens:initial_safety_tens, safetyFreq:initial_safety_freq, alimTestbench: currGlobalVoltage, alimTsui: currTsuiVoltage, jsonCalibLog : calibLogJSON},
             success: function (msg) {
                 alert("Your log has been saved.");
-                printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens);
+                printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens, calibLogJSON, datetime);
             }
         });
     }
 
     //Generation du rapport de test et affichage de la fenetre d'impression 
-    function printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens) {
+    function printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens, calibLogJSON, datetime) {
         var msg = JSON.parse(jsonLogFinal);
         var msgCalib = JSON.parse(calibLogJSON);
         var lineButton = "";
@@ -2822,16 +2834,16 @@ $(document).ready(function () {
         var testAlimTSUI;
         
         if (currGlobalVoltage != "undefined" && currTsuiVoltage) {
-            currGlobalVoltage = currGlobalVoltage.toFixed(2);
+            currGlobalVoltage = parseInt(currGlobalVoltage).toFixed(2);
         }
         if (currTsuiVoltage != "undefined" && currTsuiVoltage) {
-            currTsuiVoltage = currTsuiVoltage.toFixed(2);
+            currTsuiVoltage = parseInt(currTsuiVoltage).toFixed(2);
         }        
         if (initial_enable_tens != "undefined" && initial_enable_tens) {
-            initial_enable_tens = initial_enable_tens.toFixed(2);
+            initial_enable_tens = parseInt(initial_enable_tens).toFixed(2);
         }        
         if (initial_safety_tens != "undefined" && initial_safety_tens) {
-            initial_safety_tens = initial_safety_tens.toFixed(2);
+            initial_safety_tens = parseInt(initial_safety_tens).toFixed(2);
         }
 
         if (lsl < currGlobalVoltage && usl > currGlobalVoltage) {
@@ -2973,12 +2985,7 @@ $(document).ready(function () {
             lineCalib += line;
         }
         
-        var currentdate = new Date();
-        var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
-        var month = currentdate.getMonth() + 1; if (String(month).length <=1){month = "0"+month};
-        var hour = currentdate.getHours(); if (String(hour).length <=1){hour = "0"+hour};
-        var minutes = currentdate.getMinutes(); if (String(minutes).length <=1){minutes = "0"+minutes};
-        var datetime = day + "/" + month + "/" + currentdate.getFullYear() + " " + hour + "h" + minutes;
+        
         var myWindow = window.open('', '', 'width=1000,height=800');
         myWindow.document.write(
                 "<h2>FINAL TEST LOG RECORD - " + datetime + "</h2>"
@@ -2989,7 +2996,7 @@ $(document).ready(function () {
                 + "<div><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>V alimentation</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + currTsuiVoltage + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + lsl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + usl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + testAlimGlobal + "</span></div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>V TSUI</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + currGlobalVoltage + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + lsl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + usl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + testAlimTSUI + "</span></div>"
                 + "</div>"                
-                + "<h3>INITIAL STATE</h3><div>"
+                + "<h3>INITIAL STATES</h3><div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'><b>Type</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measured Value</b></span></div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable Frequency</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_freq+"Hz</span></div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable Voltage</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_tens+"V</span></div>"
@@ -3398,12 +3405,9 @@ $(document).ready(function () {
             $(".bloc_calibrate.id" + identifier).find(".calibrate_tool").addClass("hidden");
             $(".bloc_calibrate.id" + identifier).find("button").removeClass("hidden");
             $(".bloc_calibrate.id" + identifier).find(".validate_calib").off();
-
-
-            var descri = $(".id" + identifier + " .title_jauge").html();
             $(".statut_calibration_verif").removeClass("hidden");
             $(".statut_calibration_verif").find(".id" + identifier + "").remove();
-            $(".statut_calibration_verif").append("<div class='line_validate_calib id" + identifier + "'><img class='check_calib' src='images/check.png'>Joystick <b>" + descri + "</b> is calibrated</div>");
+            $(".statut_calibration_verif").append("<div class='line_validate_calib id" + identifier + "'><img class='check_calib' src='images/check.png'>Joystick is now calibrated</div>");
 
             setTimeout(function () {
                 var count = $("#content_calibration .calibration_zone_container .bloc_calibrate").length;
@@ -4266,7 +4270,7 @@ $(document).ready(function () {
         if (activeSearchHistoryResult.length !== 0) {
             $(".history_table .content_history_table").empty();
             for (var index = 0; index < activeSearchHistoryResult.length; index++) {
-                var lineHistory = "<div class='line_history_table' data-index='" + index + "' data-type='" + activeSearchHistoryResult[index].type + "'>"
+                var lineHistory = "<div class='line_history_table' data-index='" + index + "' data-type='" + activeSearchHistoryResult[index].type + "' data-id='" + activeSearchHistoryResult[index].id + "'>"
                         + "<span class='id_history'>" + activeSearchHistoryResult[index].id + "</span>"
                         + "<span class='pn_history'>" + activeSearchHistoryResult[index].part_number + "</span>"
                         + "<span class='sn_history'>" + activeSearchHistoryResult[index].serial_number + "</span>"
@@ -4280,11 +4284,11 @@ $(document).ready(function () {
             generateNewHistoryJson();
             $(".line_history_table .data_history").on('click', function () {
                 if ($(this).parent(".line_history_table").data("type") == "pretest") {
-                    var indexlog = $(this).parent(".line_history_table").data("index");
-                    printHistoryLog(activeSearchHistoryResult[indexlog].json_log, activeSearchHistoryResult[indexlog].part_number, activeSearchHistoryResult[indexlog].serial_number, activeSearchHistoryResult[indexlog].user_sso, activeSearchHistoryResult[indexlog].date);
+                    var id = $(this).parent(".line_history_table").data("id");
+                    printHistoryLog(id);
                 } else if ($(this).parent(".line_history_table").data("type") == "finaltest") {
-                    var indexlog = $(this).parent(".line_history_table").data("index");
-                    printHistoryLogFinal(activeSearchHistoryResult[indexlog].json_log, activeSearchHistoryResult[indexlog].part_number, activeSearchHistoryResult[indexlog].serial_number, activeSearchHistoryResult[indexlog].user_sso, activeSearchHistoryResult[indexlog].date);
+                    var id = $(this).parent(".line_history_table").data("id");
+                    printHistoryLogFinal(id);
                 } else {
                     alert("no type found");
                 }
@@ -4295,126 +4299,57 @@ $(document).ready(function () {
     }
     
     //Generation du rapport de test et affichage de la fenetre d'impression 
-    function printHistoryLog(jsonLog, pn, sn, sso, date) {
-        var msg = JSON.parse(jsonLog);
-        var lineButton = "";
-        var lineLed = "";
-        var lineJoystick = "";
-        var lineBuzzer = "";
-        for (var i = 0; i < msg.length; i++) {
-            if (msg[i].fct == "button") {
-                if (msg[i].test == "untested") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:orange'>" + msg[i].test + "</span></div>"
-                }
-                if (msg[i].test == "OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:green'>" + msg[i].test + "</span></div>"
-                }
-                if (msg[i].test == "FAILED") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:red'>" + msg[i].test + "</span></div>"
-                }
-
-                lineButton += line;
+    function printHistoryLog(id) {
+       $.ajax({
+            //get global log with param1 = PN, param2 = SN, param3 = userSSO, param4= date
+            url: 'php/api.php?function=get_global_log_by_id&param1=' + id,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (data, statut) {
+                console.log(data);
+                var date = data[0].date;
+                var fw_fct_version = data[0].fw_fct_version;
+                var json_log = data[0].json_log;
+                var part_number = data[0].part_number;
+                var serial_number = data[0].serial_number;
+                var sw_version = data[0].sw_version;
+                var user_sso = data[0].user_sso;                
+                printJsonLog(json_log, serial_number, part_number, user_sso, date, fw_fct_version, sw_version)
             }
-            if (msg[i].fct == "led") {
-                if (msg[i].test == "untested") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:orange'>" + msg[i].test + "</span></div>"
-                }
-                if (msg[i].test == "OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:green'>" + msg[i].test + "</span></div>"
-                }
-                if (msg[i].test == "FAILED") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:red'>" + msg[i].test + "</span></div>"
-                }
-                lineLed += line;
-            }
-            if (msg[i].fct == "buzzer") {
-                if (msg[i].test == "untested") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:orange'>" + msg[i].test + "</span></div>"
-                }
-                if (msg[i].test == "OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:green'>" + msg[i].test + "</span></div>"
-                }
-                if (msg[i].test == "FAILED") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:red'>" + msg[i].test + "</span></div>"
-                }
-                lineBuzzer += line;
-            }
-            if (msg[i].fct == "joystick") {
-                if (msg[i].test == "untested") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> = <span style='color:orange'>" + msg[i].test + "</span></div>"
-                }
-                lineJoystick += line;
-            }
-
-        }
-        var currentdate = new Date();
-        var datetime = currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + "h" + currentdate.getMinutes();
-        var myWindow = window.open('', '', 'width=1000,height=800');
-        myWindow.document.write("<h2>PRETEST LOG RECORD - " + date + "</h2><div style='border:1px solid black;padding:5px;'><b>PN</b> : " + pn + " - <b>SN</b> : " + sn + " - <b>Firmware version</b> : 2.0.3 - <b>User SSO</b> : " + sso + "</div><h3>BUTTONS</h3><div>" + lineButton + "</div><h3>BUZZERS</h3><div>" + lineBuzzer + "</div><h3>BACKLIGHTS</h3><div>" + lineLed + "</div>");
-        myWindow.document.close();
-        myWindow.focus();
-        myWindow.print();
-        myWindow.close();
+        });
     }
 
     //Generation du rapport de test FINAL et affichage de la fenetre d'impression 
-    function printHistoryLogFinal(jsonLog, pn, sn, sso, date) {
-        var msg = JSON.parse(jsonLog);
-        var lineButton = "";
-        var lineLed = "";
-        var lineJoystick = "";
-        var lineBuzzer = "";
-        for (var i = 0; i < msg.length; i++) {
-            if (msg[i].type == "button") {
-                if (msg[i].result == "TEST OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:green'>" + msg[i].result + "</span></div>"
-                }
-                if (msg[i].result == "TEST FAIL") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:red'>" + msg[i].result + "</span></div>"
-                }
-
-                lineButton += line;
+    function printHistoryLogFinal(id) {
+        $.ajax({
+            //get global log with param1 = PN, param2 = SN, param3 = userSSO, param4= date
+            url: 'php/api.php?function=get_global_log_by_id&param1=' + id,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (data, statut) {
+                console.log(data);
+                var alim_testbench = data[0].alim_testbench;
+                var alim_tsui = data[0].alim_tsui;
+                var date = data[0].date;
+                var enable_freq = data[0].enable_freq;
+                var enable_tens = data[0].enable_tens;
+                var fw_calib_version = data[0].fw_calib_version;
+                var fw_fct_version = data[0].fw_fct_version;
+                var id = data[0].id;
+                var json_calib_log = data[0].json_calib_log;
+                var json_log = data[0].json_log;
+                var part_number = data[0].part_number;
+                var role = data[0].role;
+                var safety_freq = data[0].safety_freq;
+                var safety_tens = data[0].safety_tens;
+                var serial_number = data[0].serial_number;
+                var sw_version = data[0].sw_version;
+                var type = data[0].type;
+                var user_sso = data[0].user_sso;
+                
+                printJsonLogFinal(json_log, serial_number, part_number, user_sso, fw_fct_version, fw_calib_version, sw_version, alim_testbench, alim_tsui, enable_freq, enable_tens, safety_freq, safety_tens, json_calib_log, date)
             }
-            if (msg[i].type == "led") {
-                if (msg[i].result == "TEST OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:green'>" + msg[i].result + "</span></div>"
-                }
-                if (msg[i].result == "TEST FAIL") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:red'>" + msg[i].result + "</span></div>"
-                }
-
-                lineLed += line;
-            }
-            if (msg[i].type == "buzzer") {
-                if (msg[i].result == "TEST OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:green'>" + msg[i].result + "</span></div>"
-                }
-                if (msg[i].result == "TEST FAIL") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:red'>" + msg[i].result + "</span></div>"
-                }
-
-                lineBuzzer += line;
-            }
-            if (msg[i].type == "joystick") {
-                if (msg[i].result == "TEST OK") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:green'>" + msg[i].result + "</span></div>"
-                }
-                if (msg[i].result == "TEST FAIL") {
-                    var line = "<div><span style='width:100px;display:inline-block;'>" + msg[i].name + "</span> (" + msg[i].description + ") = <span style='color:red'>" + msg[i].result + "</span></div>"
-                }
-
-                lineJoystick += line;
-            }
-
-        }
-        var currentdate = new Date();
-        var datetime = currentdate.getDate() + "/" + (currentdate.getMonth() + 1) + "/" + currentdate.getFullYear() + " " + currentdate.getHours() + "h" + currentdate.getMinutes();
-        var myWindow = window.open('', '', 'width=1000,height=800');
-        myWindow.document.write("<h2>FINAL TEST LOG RECORD - " + date + "</h2><div style='border:1px solid black;padding:5px;'><b>PN</b> : " + pn + " - <b>SN</b> : " + sn + " - <b>Firmware version</b> : 2.0.3 - <b>User SSO</b> : " + sso + "</div><h3>BUTTONS</h3><div>" + lineButton + "</div><h3>BUZZERS</h3><div>" + lineBuzzer + "</div><h3>BACKLIGHTS</h3><div>" + lineLed + "</div>");
-        myWindow.document.close();
-        myWindow.focus();
-        myWindow.print();
-        myWindow.close();
+        });
     }
 
     function sortBy(field, reverse, primer) {
@@ -4595,9 +4530,7 @@ $(document).ready(function () {
     $("#record_log").on('click', function () {
         generateJsonLog();
     });
-    $("#print_log").on('click', function () {
-        printJsonLog(jsonLog);
-    });
+    
 
     $(".start_node_bt").on('click', function () {
         sendSignal(startNodeMsg);
@@ -4688,7 +4621,7 @@ $(document).ready(function () {
     $(".change_nodeid").on('click', function () {
         var value = $("#value_nodeid").html().trim();
         if (value !== " ") {
-            alert("send D" + value);
+            //alert("send D" + value);
             sendSignalPic("D" + value);
             sendSignalPic("2");
             setTimeout(function () {
