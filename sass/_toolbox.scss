@@ -363,23 +363,24 @@
                 vertical-align: middle;
             }
             img{
-                border-radius: 70px;
+                border-radius: 5px;
                 width: 70px;
-                height: 40px;
+                height: 46.7px;
             }
         }
         &.zone_0{
             top:0;
             left:0;
-            min-height: 264px;
+            min-height: 306px;
         }
         &.zone_1{
-            top: 308px;
+            top: 350px;
             left: 0;
             width: 986px;
             text-align:center;
             width: 750px;
             margin: auto;
+           
             right: 0;
             .diag_component{
                 display: inline-block;
@@ -390,7 +391,7 @@
         &.zone_2{
             top: 0;
             right: 0;
-            min-height: 265px;
+            min-height: 306px;
             min-width: 362px;
         }
         &.zone_3{           
@@ -1007,9 +1008,9 @@
                     vertical-align: middle;
                 }
                 img{
-                    border-radius: 70px;
+                    border-radius: 5px;
                     width: 70px;
-                    height: 40px;
+                    height: 46.7px;                
                 }
             }
         }
@@ -1237,6 +1238,54 @@
             }
         }        
     }
+    .bad_calibration{
+        min-height: 74px;
+        margin-right: 44px;
+        display: inline-block;
+        width: 199px;
+        border: 2px solid #3b73b9;
+        border-radius: 5px;
+        padding: 5px;
+        display: inline-block;
+        vertical-align: top;
+        .get_bad{
+            border-radius: 5px;
+            background: #c4c4c4;
+            font-weight: bold;
+            text-align: center;
+            height: 21px;
+            padding-top: 3px;
+            box-shadow: 1px 1px 1px black;
+            width: 140px;
+            cursor: pointer;
+            margin-top: 11px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px;
+            border: none;
+            width:173px;
+            &.blinker_me {
+                animation: blinkers 1s linear infinite;
+            }
+            @keyframes blinkers {  
+                50% {                     
+                    background : orangered;
+                }
+            }
+        }
+        .position_result{
+            span{
+                display: inline-block;
+                vertical-align: middle;
+            }
+            
+        }
+        img{
+            width: 65px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
     .switch_calibration{
         min-height: 74px;
         margin-right: 44px;
@@ -1271,6 +1320,7 @@
         padding: 5px;
         display:inline-block;
         vertical-align:top;
+        min-height: 89px;
         .img_eprom{
             width: 35px;
             height: auto;

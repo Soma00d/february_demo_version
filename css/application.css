@@ -1092,6 +1092,29 @@ and open the template in the editor.
 }
 
 /* line 2, ../sass/_calibration.scss */
+#content_calibration .warning_firmware {
+  padding: 5px;
+  border: 2px solid orange;
+  border-radius: 5px;
+  width: 515px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  position: relative;
+}
+/* line 13, ../sass/_calibration.scss */
+#content_calibration .warning_firmware img {
+  width: 32px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
+  position: absolute;
+  top: -16px;
+  left: -16px;
+}
+/* line 23, ../sass/_calibration.scss */
 #content_calibration .continue_to_finaltest {
   margin-top: 21px;
   background: #3b73b9;
@@ -1108,7 +1131,7 @@ and open the template in the editor.
   margin-bottom: 10px;
   text-align: center;
 }
-/* line 18, ../sass/_calibration.scss */
+/* line 39, ../sass/_calibration.scss */
 #content_calibration .bt_moins {
   border: 1px solid black;
   cursor: pointer;
@@ -1121,7 +1144,7 @@ and open the template in the editor.
   margin: 5px;
   padding-top: 3px;
 }
-/* line 30, ../sass/_calibration.scss */
+/* line 51, ../sass/_calibration.scss */
 #content_calibration .bt_plus {
   border: 1px solid black;
   cursor: pointer;
@@ -1134,17 +1157,17 @@ and open the template in the editor.
   margin: 5px;
   padding-top: 3px;
 }
-/* line 42, ../sass/_calibration.scss */
+/* line 63, ../sass/_calibration.scss */
 #content_calibration .intitule {
   font-weight: bold;
   font-size: 30px;
   text-align: center;
 }
-/* line 48, ../sass/_calibration.scss */
+/* line 69, ../sass/_calibration.scss */
 #content_calibration .toolbox_calibration {
   text-align: center;
 }
-/* line 51, ../sass/_calibration.scss */
+/* line 72, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val {
   text-align: center;
   background: #f2f2f2;
@@ -1158,14 +1181,14 @@ and open the template in the editor.
   margin: 10px;
   position: relative;
 }
-/* line 63, ../sass/_calibration.scss */
+/* line 84, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .title_verify {
   position: absolute;
   font-weight: bold;
   font-style: italic;
   top: -21px;
 }
-/* line 69, ../sass/_calibration.scss */
+/* line 90, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val.blink_me {
   animation: blinker 1s linear infinite;
 }
@@ -1175,37 +1198,37 @@ and open the template in the editor.
     background: white;
   }
 }
-/* line 79, ../sass/_calibration.scss */
+/* line 100, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .current_joystick {
   font-weight: bold;
 }
-/* line 82, ../sass/_calibration.scss */
+/* line 103, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage {
   display: inline-block;
   vertical-align: top;
   width: 45%;
   border-right: 1px solid black;
 }
-/* line 87, ../sass/_calibration.scss */
+/* line 108, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage .title {
   text-align: left;
   margin-bottom: 10px;
   color: #3b73b9;
   font-style: italic;
 }
-/* line 93, ../sass/_calibration.scss */
+/* line 114, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
   width: 100px;
   margin-bottom: 5px;
 }
-/* line 99, ../sass/_calibration.scss */
+/* line 120, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage .bloc_right_joy {
   text-align: left;
   width: 100px;
 }
-/* line 104, ../sass/_calibration.scss */
+/* line 125, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data {
   display: inline-block;
   vertical-align: top;
@@ -1213,26 +1236,26 @@ and open the template in the editor.
   margin-left: 6%;
   color: #515151;
 }
-/* line 110, ../sass/_calibration.scss */
+/* line 131, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .title {
   text-align: left;
   margin-bottom: 10px;
   color: #3b73b9;
   font-style: italic;
 }
-/* line 116, ../sass/_calibration.scss */
+/* line 137, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
   width: 100px;
   margin-bottom: 5px;
 }
-/* line 122, ../sass/_calibration.scss */
+/* line 143, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .bloc_right_joy {
   text-align: left;
   width: 100px;
 }
-/* line 128, ../sass/_calibration.scss */
+/* line 149, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif {
   border: 2px solid #3b73b9;
   padding: 15px;
@@ -1242,33 +1265,33 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 136, ../sass/_calibration.scss */
+/* line 157, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif .line_validate_calib {
   margin-bottom: 20px;
 }
-/* line 138, ../sass/_calibration.scss */
+/* line 159, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif .line_validate_calib:last-child {
   margin-bottom: 0px;
 }
-/* line 141, ../sass/_calibration.scss */
+/* line 162, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif .line_validate_calib .check_calib {
   display: inline-block;
   vertical-align: middle;
   width: 25px;
   margin-right: 15px;
 }
-/* line 149, ../sass/_calibration.scss */
+/* line 170, ../sass/_calibration.scss */
 #content_calibration .calibration_test_container {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 30px;
 }
-/* line 154, ../sass/_calibration.scss */
+/* line 175, ../sass/_calibration.scss */
 #content_calibration .calibration_zone_container {
   text-align: center;
   margin-top: 30px;
 }
-/* line 158, ../sass/_calibration.scss */
+/* line 179, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate {
   display: inline-block;
   border: 1px solid black;
@@ -1278,13 +1301,13 @@ and open the template in the editor.
   width: 280px;
   vertical-align: top;
 }
-/* line 166, ../sass/_calibration.scss */
+/* line 187, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate .bloc_gestion_calib {
   width: 50%;
   display: inline-block;
   vertical-align: middle;
 }
-/* line 171, ../sass/_calibration.scss */
+/* line 192, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate .img_calib {
   width: 40%;
   display: inline-block;
@@ -1292,12 +1315,12 @@ and open the template in the editor.
   height: 70px;
   margin-left: 12px;
 }
-/* line 177, ../sass/_calibration.scss */
+/* line 198, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate .img_calib img {
   width: 100%;
   height: auto;
 }
-/* line 183, ../sass/_calibration.scss */
+/* line 204, ../sass/_calibration.scss */
 #content_calibration .validate_calib {
   cursor: pointer;
   background: #3b73b9;
@@ -1308,18 +1331,18 @@ and open the template in the editor.
   margin-top: 10px;
   border-radius: 5px;
 }
-/* line 193, ../sass/_calibration.scss */
+/* line 214, ../sass/_calibration.scss */
 #content_calibration .title_jauge {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 10px;
   color: #3b73b9;
 }
-/* line 199, ../sass/_calibration.scss */
+/* line 220, ../sass/_calibration.scss */
 #content_calibration .status_calib {
   margin-bottom: 10px;
 }
-/* line 202, ../sass/_calibration.scss */
+/* line 223, ../sass/_calibration.scss */
 #content_calibration .eprom_protect {
   width: 199px;
   border: 2px solid #3b73b9;
@@ -1328,7 +1351,7 @@ and open the template in the editor.
   display: inline-block;
   vertical-align: top;
 }
-/* line 209, ../sass/_calibration.scss */
+/* line 230, ../sass/_calibration.scss */
 #content_calibration .eprom_protect .img_eprom {
   width: 35px;
   height: auto;
@@ -1336,12 +1359,12 @@ and open the template in the editor.
   vertical-align: middle;
   margin-right: 10px;
 }
-/* line 216, ../sass/_calibration.scss */
+/* line 237, ../sass/_calibration.scss */
 #content_calibration .eprom_protect .txt_eprom {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 220, ../sass/_calibration.scss */
+/* line 241, ../sass/_calibration.scss */
 #content_calibration .eprom_protect .bt_eprom {
   border-radius: 5px;
   background: #c4c4c4;
@@ -1787,19 +1810,19 @@ and open the template in the editor.
 }
 /* line 365, ../sass/_toolbox.scss */
 .diag_inge .zone .diag_component img {
-  border-radius: 70px;
+  border-radius: 5px;
   width: 70px;
-  height: 40px;
+  height: 46.7px;
 }
 /* line 371, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_0 {
   top: 0;
   left: 0;
-  min-height: 264px;
+  min-height: 306px;
 }
 /* line 376, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_1 {
-  top: 308px;
+  top: 350px;
   left: 0;
   width: 986px;
   text-align: center;
@@ -1807,32 +1830,32 @@ and open the template in the editor.
   margin: auto;
   right: 0;
 }
-/* line 384, ../sass/_toolbox.scss */
+/* line 385, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_1 .diag_component {
   display: inline-block;
   vertical-align: top;
   text-align: left;
 }
-/* line 390, ../sass/_toolbox.scss */
+/* line 391, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_2 {
   top: 0;
   right: 0;
-  min-height: 265px;
+  min-height: 306px;
   min-width: 362px;
 }
-/* line 396, ../sass/_toolbox.scss */
+/* line 397, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_3 {
   width: 750px;
   margin: auto;
   position: relative;
 }
-/* line 400, ../sass/_toolbox.scss */
+/* line 401, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_3 .diag_component {
   display: inline-block;
   vertical-align: top;
   text-align: left;
 }
-/* line 406, ../sass/_toolbox.scss */
+/* line 407, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_4 {
   top: 370px;
   left: 0;
@@ -1841,13 +1864,13 @@ and open the template in the editor.
   margin: auto;
   right: -320px;
 }
-/* line 413, ../sass/_toolbox.scss */
+/* line 414, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_4 .diag_component {
   display: inline-block;
   vertical-align: top;
   text-align: left;
 }
-/* line 419, ../sass/_toolbox.scss */
+/* line 420, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_5 {
   top: 657px;
   left: 0;
@@ -1856,13 +1879,13 @@ and open the template in the editor.
   margin: auto;
   right: -320px;
 }
-/* line 426, ../sass/_toolbox.scss */
+/* line 427, ../sass/_toolbox.scss */
 .diag_inge .zone.zone_5 .diag_component {
   display: inline-block;
   vertical-align: top;
   text-align: left;
 }
-/* line 433, ../sass/_toolbox.scss */
+/* line 434, ../sass/_toolbox.scss */
 .diag_inge .zone .name_container {
   position: absolute;
   top: -20px;
@@ -1870,23 +1893,23 @@ and open the template in the editor.
   font-style: italic;
   color: #3b73b9;
 }
-/* line 442, ../sass/_toolbox.scss */
+/* line 443, ../sass/_toolbox.scss */
 .diag_inge .display_container .diag_component {
   margin-bottom: 10px;
   margin-top: 7px;
 }
-/* line 448, ../sass/_toolbox.scss */
+/* line 449, ../sass/_toolbox.scss */
 .diag_inge .srtl_container .srtl {
   display: inline-block;
   vertical-align: middle;
   margin-left: 15px;
   cursor: pointer;
 }
-/* line 453, ../sass/_toolbox.scss */
+/* line 454, ../sass/_toolbox.scss */
 .diag_inge .srtl_container .srtl img {
   width: 32px;
 }
-/* line 457, ../sass/_toolbox.scss */
+/* line 458, ../sass/_toolbox.scss */
 .diag_inge .srtl_container .state {
   text-align: center;
   font-weight: bold;
@@ -1898,22 +1921,22 @@ and open the template in the editor.
   margin-bottom: 10px;
   color: #3e3e3e;
 }
-/* line 470, ../sass/_toolbox.scss */
+/* line 471, ../sass/_toolbox.scss */
 .diag_inge .supply_container {
   color: #3b73b9;
   width: 177px;
   text-align: center;
   font-weight: bold;
 }
-/* line 477, ../sass/_toolbox.scss */
+/* line 478, ../sass/_toolbox.scss */
 .diag_inge .safety_container .descri {
   width: 160px !important;
 }
-/* line 481, ../sass/_toolbox.scss */
+/* line 482, ../sass/_toolbox.scss */
 .diag_inge .safety_container .values_freq_volt .frequency, .diag_inge .safety_container .values_freq_volt .voltage {
   font-weight: bold;
 }
-/* line 485, ../sass/_toolbox.scss */
+/* line 486, ../sass/_toolbox.scss */
 .diag_inge .safety_container .state {
   text-align: center;
   font-weight: bold;
@@ -1925,22 +1948,22 @@ and open the template in the editor.
   margin-bottom: 10px;
   color: #3e3e3e;
 }
-/* line 498, ../sass/_toolbox.scss */
+/* line 499, ../sass/_toolbox.scss */
 .diag_inge .emergency_container {
   padding-left: 15px;
 }
-/* line 500, ../sass/_toolbox.scss */
+/* line 501, ../sass/_toolbox.scss */
 .diag_inge .emergency_container .emergency {
   display: inline-block;
   vertical-align: middle;
   margin-left: 15px;
   cursor: pointer;
 }
-/* line 505, ../sass/_toolbox.scss */
+/* line 506, ../sass/_toolbox.scss */
 .diag_inge .emergency_container .emergency img {
   width: 32px;
 }
-/* line 509, ../sass/_toolbox.scss */
+/* line 510, ../sass/_toolbox.scss */
 .diag_inge .emergency_container .emergency_bt_clr {
   display: inline-block;
   vertical-align: top;
@@ -1954,7 +1977,7 @@ and open the template in the editor.
   border-radius: 5px;
   box-shadow: 1px 1px 1px black;
 }
-/* line 522, ../sass/_toolbox.scss */
+/* line 523, ../sass/_toolbox.scss */
 .diag_inge .emergency_container .emergency_bt_set {
   display: inline-block;
   vertical-align: top;
@@ -1968,7 +1991,7 @@ and open the template in the editor.
   border-radius: 5px;
   box-shadow: 1px 1px 1px black;
 }
-/* line 535, ../sass/_toolbox.scss */
+/* line 536, ../sass/_toolbox.scss */
 .diag_inge .emergency_container .emergency_bt_down {
   display: inline-block;
   vertical-align: top;
@@ -1982,15 +2005,15 @@ and open the template in the editor.
   border-radius: 5px;
   box-shadow: 1px 1px 1px black;
 }
-/* line 550, ../sass/_toolbox.scss */
+/* line 551, ../sass/_toolbox.scss */
 .diag_inge .enable_container .descri {
   width: 160px !important;
 }
-/* line 554, ../sass/_toolbox.scss */
+/* line 555, ../sass/_toolbox.scss */
 .diag_inge .enable_container .values_freq_volt .frequency, .diag_inge .enable_container .values_freq_volt .voltage {
   font-weight: bold;
 }
-/* line 558, ../sass/_toolbox.scss */
+/* line 559, ../sass/_toolbox.scss */
 .diag_inge .enable_container .state {
   text-align: center;
   font-weight: bold;
@@ -2002,7 +2025,7 @@ and open the template in the editor.
   margin-bottom: 10px;
   color: #3e3e3e;
 }
-/* line 570, ../sass/_toolbox.scss */
+/* line 571, ../sass/_toolbox.scss */
 .diag_inge .get_config {
   text-align: center;
   background: #f2f2f2;
@@ -2017,19 +2040,19 @@ and open the template in the editor.
   left: 398px;
   top: 83px;
 }
-/* line 583, ../sass/_toolbox.scss */
+/* line 584, ../sass/_toolbox.scss */
 .diag_inge .get_config .bt_get_config {
   margin-bottom: 10px;
 }
-/* line 586, ../sass/_toolbox.scss */
+/* line 587, ../sass/_toolbox.scss */
 .diag_inge .get_config .config_info {
   text-align: left;
 }
-/* line 588, ../sass/_toolbox.scss */
+/* line 589, ../sass/_toolbox.scss */
 .diag_inge .get_config .config_info .text_config {
   font-weight: bold;
 }
-/* line 593, ../sass/_toolbox.scss */
+/* line 594, ../sass/_toolbox.scss */
 .diag_inge .show_joystick {
   text-align: center;
   background: #3b73b9;
@@ -2046,7 +2069,7 @@ and open the template in the editor.
   cursor: pointer;
   box-shadow: 2px 2px 2px black;
 }
-/* line 609, ../sass/_toolbox.scss */
+/* line 610, ../sass/_toolbox.scss */
 .diag_inge .show_button {
   text-align: center;
   background: #3b73b9;
@@ -2063,7 +2086,7 @@ and open the template in the editor.
   cursor: pointer;
   box-shadow: 2px 2px 2px black;
 }
-/* line 625, ../sass/_toolbox.scss */
+/* line 626, ../sass/_toolbox.scss */
 .diag_inge .show_led {
   text-align: center;
   background: #3b73b9;
@@ -2081,50 +2104,50 @@ and open the template in the editor.
   cursor: pointer;
   box-shadow: 2px 2px 2px black;
 }
-/* line 643, ../sass/_toolbox.scss */
+/* line 644, ../sass/_toolbox.scss */
 .diag_inge .joystick_show {
   display: none;
   min-height: 930px;
 }
-/* line 646, ../sass/_toolbox.scss */
+/* line 647, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .informations {
   width: 100px;
   margin-bottom: 10px;
   height: 15px;
   margin-top: 15px;
 }
-/* line 651, ../sass/_toolbox.scss */
+/* line 652, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .informations .zero {
   float: left;
 }
-/* line 655, ../sass/_toolbox.scss */
+/* line 656, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .informations .cent {
   float: right;
 }
-/* line 659, ../sass/_toolbox.scss */
+/* line 660, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .jauge_container_global {
   text-align: center;
   top: 50px;
   position: absolute;
 }
-/* line 664, ../sass/_toolbox.scss */
+/* line 665, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge {
   position: relative;
   width: 177px;
   height: 278px;
 }
-/* line 668, ../sass/_toolbox.scss */
+/* line 669, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge .title_jauge {
   font-weight: bold;
   font-size: 13px;
 }
-/* line 673, ../sass/_toolbox.scss */
+/* line 674, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left {
   position: absolute;
   left: 0px;
   top: 90px;
 }
-/* line 677, ../sass/_toolbox.scss */
+/* line 678, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left .jauge_container {
   width: 75px;
   height: 22.5px;
@@ -2132,19 +2155,19 @@ and open the template in the editor.
   background: yellowgreen;
   box-shadow: -2px 0px 5px 0px grey;
 }
-/* line 684, ../sass/_toolbox.scss */
+/* line 685, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left .jauge_remplissage {
   width: 100%;
   height: 22.5px;
   background: white;
 }
-/* line 690, ../sass/_toolbox.scss */
+/* line 691, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right {
   position: absolute;
   left: 99px;
   top: 90px;
 }
-/* line 694, ../sass/_toolbox.scss */
+/* line 695, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right .jauge_container {
   width: 75px;
   height: 22.5px;
@@ -2152,18 +2175,18 @@ and open the template in the editor.
   background: white;
   box-shadow: 2px 0px 5px 0px grey;
 }
-/* line 701, ../sass/_toolbox.scss */
+/* line 702, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right .jauge_remplissage {
   width: 0%;
   height: 22.5px;
   background: yellowgreen;
 }
-/* line 707, ../sass/_toolbox.scss */
+/* line 708, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top {
   position: absolute;
   left: 75.75px;
 }
-/* line 710, ../sass/_toolbox.scss */
+/* line 711, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top .jauge_container {
   height: 75px;
   width: 22.5px;
@@ -2171,19 +2194,19 @@ and open the template in the editor.
   background: yellowgreen;
   box-shadow: 0px -2px 5px 0px grey;
 }
-/* line 717, ../sass/_toolbox.scss */
+/* line 718, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top .jauge_remplissage {
   height: 100%;
   width: 22.5px;
   background: white;
 }
-/* line 723, ../sass/_toolbox.scss */
+/* line 724, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot {
   position: absolute;
   left: 75.75px;
   top: 152.25px;
 }
-/* line 727, ../sass/_toolbox.scss */
+/* line 728, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot .jauge_container {
   height: 75px;
   width: 22.5px;
@@ -2191,23 +2214,23 @@ and open the template in the editor.
   background: white;
   box-shadow: 0px 2px 5px 0px grey;
 }
-/* line 734, ../sass/_toolbox.scss */
+/* line 735, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot .jauge_remplissage {
   height: 0%;
   width: 22.5px;
   background: yellowgreen;
 }
-/* line 739, ../sass/_toolbox.scss */
+/* line 740, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot .informations {
   margin-top: 6px;
 }
-/* line 745, ../sass/_toolbox.scss */
+/* line 746, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left_2 {
   position: absolute;
   left: 0px;
   top: 90px;
 }
-/* line 749, ../sass/_toolbox.scss */
+/* line 750, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left_2 .jauge_container {
   width: 75px;
   height: 22.5px;
@@ -2215,19 +2238,19 @@ and open the template in the editor.
   background: yellowgreen;
   box-shadow: -2px 0px 5px 0px grey;
 }
-/* line 756, ../sass/_toolbox.scss */
+/* line 757, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left_2 .jauge_remplissage {
   width: 100%;
   height: 22.5px;
   background: white;
 }
-/* line 762, ../sass/_toolbox.scss */
+/* line 763, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right_2 {
   position: absolute;
   left: 99px;
   top: 90px;
 }
-/* line 766, ../sass/_toolbox.scss */
+/* line 767, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right_2 .jauge_container {
   width: 75px;
   height: 22.5px;
@@ -2235,18 +2258,18 @@ and open the template in the editor.
   background: white;
   box-shadow: 2px 0px 5px 0px grey;
 }
-/* line 773, ../sass/_toolbox.scss */
+/* line 774, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right_2 .jauge_remplissage {
   width: 0%;
   height: 22.5px;
   background: yellowgreen;
 }
-/* line 779, ../sass/_toolbox.scss */
+/* line 780, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top_2 {
   position: absolute;
   left: 75.75px;
 }
-/* line 782, ../sass/_toolbox.scss */
+/* line 783, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top_2 .jauge_container {
   height: 75px;
   width: 22.5px;
@@ -2254,19 +2277,19 @@ and open the template in the editor.
   background: yellowgreen;
   box-shadow: 0px -2px 5px 0px grey;
 }
-/* line 789, ../sass/_toolbox.scss */
+/* line 790, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top_2 .jauge_remplissage {
   height: 100%;
   width: 22.5px;
   background: white;
 }
-/* line 795, ../sass/_toolbox.scss */
+/* line 796, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_2 {
   position: absolute;
   left: 75.75px;
   top: 152.25px;
 }
-/* line 799, ../sass/_toolbox.scss */
+/* line 800, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_2 .jauge_container {
   height: 75px;
   width: 22.5px;
@@ -2274,23 +2297,23 @@ and open the template in the editor.
   background: white;
   box-shadow: 0px 2px 5px 0px grey;
 }
-/* line 806, ../sass/_toolbox.scss */
+/* line 807, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_2 .jauge_remplissage {
   height: 0%;
   width: 22.5px;
   background: yellowgreen;
 }
-/* line 811, ../sass/_toolbox.scss */
+/* line 812, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_2 .informations {
   margin-top: 6px;
 }
-/* line 816, ../sass/_toolbox.scss */
+/* line 817, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left_3 {
   position: absolute;
   left: 0px;
   top: 90px;
 }
-/* line 820, ../sass/_toolbox.scss */
+/* line 821, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left_3 .jauge_container {
   width: 75px;
   height: 22.5px;
@@ -2298,19 +2321,19 @@ and open the template in the editor.
   background: yellowgreen;
   box-shadow: -2px 0px 5px 0px grey;
 }
-/* line 827, ../sass/_toolbox.scss */
+/* line 828, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_left_3 .jauge_remplissage {
   width: 100%;
   height: 22.5px;
   background: white;
 }
-/* line 833, ../sass/_toolbox.scss */
+/* line 834, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right_3 {
   position: absolute;
   left: 99px;
   top: 90px;
 }
-/* line 837, ../sass/_toolbox.scss */
+/* line 838, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right_3 .jauge_container {
   width: 75px;
   height: 22.5px;
@@ -2318,18 +2341,18 @@ and open the template in the editor.
   background: white;
   box-shadow: 2px 0px 5px 0px grey;
 }
-/* line 844, ../sass/_toolbox.scss */
+/* line 845, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_horizontal_right_3 .jauge_remplissage {
   width: 0%;
   height: 22.5px;
   background: yellowgreen;
 }
-/* line 850, ../sass/_toolbox.scss */
+/* line 851, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top_3 {
   position: absolute;
   left: 75.75px;
 }
-/* line 853, ../sass/_toolbox.scss */
+/* line 854, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top_3 .jauge_container {
   height: 75px;
   width: 22.5px;
@@ -2337,19 +2360,19 @@ and open the template in the editor.
   background: yellowgreen;
   box-shadow: 0px -2px 5px 0px grey;
 }
-/* line 860, ../sass/_toolbox.scss */
+/* line 861, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_top_3 .jauge_remplissage {
   height: 100%;
   width: 22.5px;
   background: white;
 }
-/* line 866, ../sass/_toolbox.scss */
+/* line 867, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_3 {
   position: absolute;
   left: 75.75px;
   top: 152.25px;
 }
-/* line 870, ../sass/_toolbox.scss */
+/* line 871, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_3 .jauge_container {
   height: 75px;
   width: 22.5px;
@@ -2357,27 +2380,27 @@ and open the template in the editor.
   background: white;
   box-shadow: 0px 2px 5px 0px grey;
 }
-/* line 877, ../sass/_toolbox.scss */
+/* line 878, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_3 .jauge_remplissage {
   height: 0%;
   width: 22.5px;
   background: yellowgreen;
 }
-/* line 882, ../sass/_toolbox.scss */
+/* line 883, ../sass/_toolbox.scss */
 .diag_inge .joystick_show .canvas_jauge #jauge_joystick_vertical_bot_3 .informations {
   margin-top: 6px;
 }
-/* line 891, ../sass/_toolbox.scss */
+/* line 892, ../sass/_toolbox.scss */
 .diag_inge .led_show {
   display: none;
 }
-/* line 893, ../sass/_toolbox.scss */
+/* line 894, ../sass/_toolbox.scss */
 .diag_inge .led_show .col_left {
   display: inline-block;
   vertical-align: top;
   width: 375px;
 }
-/* line 898, ../sass/_toolbox.scss */
+/* line 899, ../sass/_toolbox.scss */
 .diag_inge .led_show .col_btn {
   display: inline-block;
   vertical-align: top;
@@ -2385,25 +2408,25 @@ and open the template in the editor.
   padding: 30px;
   padding-top: 0;
 }
-/* line 904, ../sass/_toolbox.scss */
+/* line 905, ../sass/_toolbox.scss */
 .diag_inge .led_show .col_btn .show_button {
   position: relative;
   width: 100%;
   margin-bottom: 10px;
 }
-/* line 909, ../sass/_toolbox.scss */
+/* line 910, ../sass/_toolbox.scss */
 .diag_inge .led_show .col_btn .show_joystick {
   position: relative;
   margin-bottom: 35px;
   width: 100%;
 }
-/* line 915, ../sass/_toolbox.scss */
+/* line 916, ../sass/_toolbox.scss */
 .diag_inge .led_show .col_right {
   display: inline-block;
   vertical-align: top;
   width: 375px;
 }
-/* line 920, ../sass/_toolbox.scss */
+/* line 921, ../sass/_toolbox.scss */
 .diag_inge .led_show .btn_function_panel {
   text-align: center;
   background: #7aa2c8;
@@ -2419,15 +2442,15 @@ and open the template in the editor.
   box-shadow: 2px 2px 2px black;
   margin-bottom: 10px;
 }
-/* line 934, ../sass/_toolbox.scss */
+/* line 935, ../sass/_toolbox.scss */
 .diag_inge .led_show .btn_function_panel.tsui_restart_bt {
   background: #c84848;
 }
-/* line 937, ../sass/_toolbox.scss */
+/* line 938, ../sass/_toolbox.scss */
 .diag_inge .led_show .btn_function_panel.separate {
   margin-bottom: 25px;
 }
-/* line 941, ../sass/_toolbox.scss */
+/* line 942, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone {
   width: 100%;
   position: relative;
@@ -2436,7 +2459,7 @@ and open the template in the editor.
   border-radius: 5px;
   padding: 5px;
 }
-/* line 948, ../sass/_toolbox.scss */
+/* line 949, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .name_container {
   position: absolute;
   top: -20px;
@@ -2444,21 +2467,21 @@ and open the template in the editor.
   font-style: italic;
   color: #3b73b9;
 }
-/* line 955, ../sass/_toolbox.scss */
+/* line 956, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component {
   width: 365px;
 }
-/* line 956, ../sass/_toolbox.scss */
+/* line 957, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component.is_pressed {
   background: #59ee3a;
 }
-/* line 960, ../sass/_toolbox.scss */
+/* line 961, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component {
   display: inline-block;
   vertical-align: middle;
   margin-left: 8px;
 }
-/* line 964, ../sass/_toolbox.scss */
+/* line 965, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .switch {
   display: inline-block;
   vertical-align: middle;
@@ -2466,88 +2489,88 @@ and open the template in the editor.
   margin: 2px;
   font-weight: bold;
 }
-/* line 965, ../sass/_toolbox.scss */
+/* line 966, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .switch img {
   width: 32px;
   height: auto;
   display: inline-block;
   vertical-align: middle;
 }
-/* line 978, ../sass/_toolbox.scss */
+/* line 979, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .symbol {
   display: inline-block;
   vertical-align: middle;
   font-weight: bold;
   width: 40px;
 }
-/* line 984, ../sass/_toolbox.scss */
+/* line 985, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .type {
   display: inline-block;
   vertical-align: middle;
   width: 55px;
   font-style: italic;
 }
-/* line 990, ../sass/_toolbox.scss */
+/* line 991, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .descri {
   display: inline-block;
   vertical-align: middle;
   width: 95px;
 }
-/* line 995, ../sass/_toolbox.scss */
+/* line 996, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .press {
   display: inline-block;
   vertical-align: middle;
   width: 30px;
 }
-/* line 1000, ../sass/_toolbox.scss */
+/* line 1001, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .info_component .rel {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 1005, ../sass/_toolbox.scss */
+/* line 1006, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component .photo_piece {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 1009, ../sass/_toolbox.scss */
+/* line 1010, ../sass/_toolbox.scss */
 .diag_inge .led_show .bloc_container_zone .diag_component img {
-  border-radius: 70px;
+  border-radius: 5px;
   width: 70px;
-  height: 40px;
+  height: 46.7px;
 }
-/* line 1017, ../sass/_toolbox.scss */
+/* line 1018, ../sass/_toolbox.scss */
 .diag_inge .led_show .hw_signals_container .line_signal {
   height: 26px;
   margin-bottom: 2px;
 }
-/* line 1018, ../sass/_toolbox.scss */
+/* line 1019, ../sass/_toolbox.scss */
 .diag_inge .led_show .hw_signals_container .line_signal:nth-child(odd) {
   background: #eeeeeec1;
 }
-/* line 1021, ../sass/_toolbox.scss */
+/* line 1022, ../sass/_toolbox.scss */
 .diag_inge .led_show .hw_signals_container .line_signal span {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 1025, ../sass/_toolbox.scss */
+/* line 1026, ../sass/_toolbox.scss */
 .diag_inge .led_show .hw_signals_container .line_signal .name_signal {
   width: 210px;
 }
-/* line 1028, ../sass/_toolbox.scss */
+/* line 1029, ../sass/_toolbox.scss */
 .diag_inge .led_show .hw_signals_container .line_signal .value {
   width: 100px;
 }
-/* line 1032, ../sass/_toolbox.scss */
+/* line 1033, ../sass/_toolbox.scss */
 .diag_inge .led_show .hw_signals_container .line_signal .voyant img {
   width: 25px;
 }
 
-/* line 1043, ../sass/_toolbox.scss */
+/* line 1044, ../sass/_toolbox.scss */
 .download_inge {
   display: none;
   margin-top: 40px;
 }
-/* line 1046, ../sass/_toolbox.scss */
+/* line 1047, ../sass/_toolbox.scss */
 .download_inge .download_tool {
   text-align: center;
   background: #f2f2f2;
@@ -2559,22 +2582,22 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 1056, ../sass/_toolbox.scss */
+/* line 1057, ../sass/_toolbox.scss */
 .download_inge .download_tool .title_download {
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 1060, ../sass/_toolbox.scss */
+/* line 1061, ../sass/_toolbox.scss */
 .download_inge .download_tool .content_upl {
   text-align: left;
   margin-top: -12px;
 }
-/* line 1063, ../sass/_toolbox.scss */
+/* line 1064, ../sass/_toolbox.scss */
 .download_inge .download_tool .content_upl span {
   color: green;
   font-weight: bold;
 }
-/* line 1068, ../sass/_toolbox.scss */
+/* line 1069, ../sass/_toolbox.scss */
 .download_inge .download_tool .start_download {
   border: 1px solid black;
   background: #3b73b9;
@@ -2587,7 +2610,7 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 1080, ../sass/_toolbox.scss */
+/* line 1081, ../sass/_toolbox.scss */
 .download_inge .download_tool .stop_download {
   border: 1px solid black;
   background: red;
@@ -2600,20 +2623,20 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 1092, ../sass/_toolbox.scss */
+/* line 1093, ../sass/_toolbox.scss */
 .download_inge .download_tool .downloading_bar_container {
   border: 1px solid black;
   height: 20px;
   margin-top: 6px;
   position: relative;
 }
-/* line 1097, ../sass/_toolbox.scss */
+/* line 1098, ../sass/_toolbox.scss */
 .download_inge .download_tool .downloading_bar_container .downloading_bar {
   background: #b9e8ff;
   width: 0%;
   height: 20px;
 }
-/* line 1102, ../sass/_toolbox.scss */
+/* line 1103, ../sass/_toolbox.scss */
 .download_inge .download_tool .downloading_bar_container .downloading_bar_content {
   position: absolute;
   margin-left: auto;
@@ -2625,12 +2648,12 @@ and open the template in the editor.
   font-weight: bold;
 }
 
-/* line 1116, ../sass/_toolbox.scss */
+/* line 1117, ../sass/_toolbox.scss */
 .calibration_inge {
   display: none;
   margin-top: 40px;
 }
-/* line 1119, ../sass/_toolbox.scss */
+/* line 1120, ../sass/_toolbox.scss */
 .calibration_inge .warning_firmware {
   padding: 5px;
   border: 2px solid orange;
@@ -2641,19 +2664,19 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 1128, ../sass/_toolbox.scss */
+/* line 1129, ../sass/_toolbox.scss */
 .calibration_inge .warning_firmware img {
   width: 32px;
   display: inline-block;
   vertical-align: middle;
   margin-right: 15px;
 }
-/* line 1135, ../sass/_toolbox.scss */
+/* line 1136, ../sass/_toolbox.scss */
 .calibration_inge .calibration_zone_container {
   text-align: center;
   margin-top: 30px;
 }
-/* line 1139, ../sass/_toolbox.scss */
+/* line 1140, ../sass/_toolbox.scss */
 .calibration_inge .bloc_calibrate {
   display: inline-block;
   border: 1px solid black;
@@ -2663,13 +2686,13 @@ and open the template in the editor.
   width: 280px;
   vertical-align: top;
 }
-/* line 1147, ../sass/_toolbox.scss */
+/* line 1148, ../sass/_toolbox.scss */
 .calibration_inge .bloc_calibrate .bloc_gestion_calib {
   width: 50%;
   display: inline-block;
   vertical-align: middle;
 }
-/* line 1152, ../sass/_toolbox.scss */
+/* line 1153, ../sass/_toolbox.scss */
 .calibration_inge .bloc_calibrate .img_calib {
   width: 40%;
   display: inline-block;
@@ -2677,12 +2700,12 @@ and open the template in the editor.
   height: 70px;
   margin-left: 12px;
 }
-/* line 1158, ../sass/_toolbox.scss */
+/* line 1159, ../sass/_toolbox.scss */
 .calibration_inge .bloc_calibrate .img_calib img {
   width: 100%;
   height: auto;
 }
-/* line 1164, ../sass/_toolbox.scss */
+/* line 1165, ../sass/_toolbox.scss */
 .calibration_inge .validate_calib {
   cursor: pointer;
   background: #3b73b9;
@@ -2693,24 +2716,24 @@ and open the template in the editor.
   margin-top: 10px;
   border-radius: 5px;
 }
-/* line 1174, ../sass/_toolbox.scss */
+/* line 1175, ../sass/_toolbox.scss */
 .calibration_inge .title_jauge {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 10px;
   color: #3b73b9;
 }
-/* line 1180, ../sass/_toolbox.scss */
+/* line 1181, ../sass/_toolbox.scss */
 .calibration_inge .status_calib {
   margin-bottom: 10px;
 }
-/* line 1183, ../sass/_toolbox.scss */
+/* line 1184, ../sass/_toolbox.scss */
 .calibration_inge .calibration_test_container {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 30px;
 }
-/* line 1188, ../sass/_toolbox.scss */
+/* line 1189, ../sass/_toolbox.scss */
 .calibration_inge .bt_moins {
   border: 1px solid black;
   cursor: pointer;
@@ -2723,7 +2746,7 @@ and open the template in the editor.
   margin: 5px;
   padding-top: 3px;
 }
-/* line 1200, ../sass/_toolbox.scss */
+/* line 1201, ../sass/_toolbox.scss */
 .calibration_inge .bt_plus {
   border: 1px solid black;
   cursor: pointer;
@@ -2736,17 +2759,17 @@ and open the template in the editor.
   margin: 5px;
   padding-top: 3px;
 }
-/* line 1212, ../sass/_toolbox.scss */
+/* line 1213, ../sass/_toolbox.scss */
 .calibration_inge .intitule {
   font-weight: bold;
   font-size: 30px;
   text-align: center;
 }
-/* line 1217, ../sass/_toolbox.scss */
+/* line 1218, ../sass/_toolbox.scss */
 .calibration_inge .toolbox_calibration {
   text-align: center;
 }
-/* line 1220, ../sass/_toolbox.scss */
+/* line 1221, ../sass/_toolbox.scss */
 .calibration_inge .get_config {
   text-align: center;
   background: #f2f2f2;
@@ -2758,24 +2781,74 @@ and open the template in the editor.
   vertical-align: top;
   height: 128px;
 }
-/* line 1230, ../sass/_toolbox.scss */
+/* line 1231, ../sass/_toolbox.scss */
 .calibration_inge .get_config .bt_get_config {
   margin-bottom: 10px;
 }
-/* line 1233, ../sass/_toolbox.scss */
+/* line 1234, ../sass/_toolbox.scss */
 .calibration_inge .get_config .config_info {
   text-align: left;
 }
-/* line 1235, ../sass/_toolbox.scss */
+/* line 1236, ../sass/_toolbox.scss */
 .calibration_inge .get_config .config_info .text_config {
   font-weight: bold;
 }
-/* line 1240, ../sass/_toolbox.scss */
+/* line 1241, ../sass/_toolbox.scss */
+.calibration_inge .bad_calibration {
+  min-height: 74px;
+  margin-right: 44px;
+  display: inline-block;
+  width: 199px;
+  border: 2px solid #3b73b9;
+  border-radius: 5px;
+  padding: 5px;
+  display: inline-block;
+  vertical-align: top;
+}
+/* line 1251, ../sass/_toolbox.scss */
+.calibration_inge .bad_calibration .get_bad {
+  border-radius: 5px;
+  background: #c4c4c4;
+  font-weight: bold;
+  text-align: center;
+  height: 21px;
+  padding-top: 3px;
+  box-shadow: 1px 1px 1px black;
+  width: 140px;
+  cursor: pointer;
+  margin-top: 11px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  border: none;
+  width: 173px;
+}
+/* line 1267, ../sass/_toolbox.scss */
+.calibration_inge .bad_calibration .get_bad.blinker_me {
+  animation: blinkers 1s linear infinite;
+}
+@keyframes blinkers {
+  50% {
+    background: orangered;
+  }
+}
+/* line 1277, ../sass/_toolbox.scss */
+.calibration_inge .bad_calibration .position_result span {
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 1283, ../sass/_toolbox.scss */
+.calibration_inge .bad_calibration img {
+  width: 65px;
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 1289, ../sass/_toolbox.scss */
 .calibration_inge .switch_calibration {
   min-height: 74px;
   margin-right: 44px;
 }
-/* line 1243, ../sass/_toolbox.scss */
+/* line 1292, ../sass/_toolbox.scss */
 .calibration_inge .switch_calibration .get_switch {
   border-radius: 5px;
   background: #c4c4c4;
@@ -2792,16 +2865,16 @@ and open the template in the editor.
   margin-bottom: 10px;
   border: none;
 }
-/* line 1259, ../sass/_toolbox.scss */
+/* line 1308, ../sass/_toolbox.scss */
 .calibration_inge .switch_calibration .position_result {
   margin-top: -2px;
 }
-/* line 1261, ../sass/_toolbox.scss */
+/* line 1310, ../sass/_toolbox.scss */
 .calibration_inge .switch_calibration .position_result span {
   font-weight: bold;
   font-size: 20px;
 }
-/* line 1267, ../sass/_toolbox.scss */
+/* line 1316, ../sass/_toolbox.scss */
 .calibration_inge .eprom_protect, .calibration_inge .switch_calibration {
   width: 199px;
   border: 2px solid #3b73b9;
@@ -2809,8 +2882,9 @@ and open the template in the editor.
   padding: 5px;
   display: inline-block;
   vertical-align: top;
+  min-height: 89px;
 }
-/* line 1274, ../sass/_toolbox.scss */
+/* line 1324, ../sass/_toolbox.scss */
 .calibration_inge .eprom_protect .img_eprom, .calibration_inge .switch_calibration .img_eprom {
   width: 35px;
   height: auto;
@@ -2818,12 +2892,12 @@ and open the template in the editor.
   vertical-align: middle;
   margin-right: 10px;
 }
-/* line 1281, ../sass/_toolbox.scss */
+/* line 1331, ../sass/_toolbox.scss */
 .calibration_inge .eprom_protect .txt_eprom, .calibration_inge .switch_calibration .txt_eprom {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 1285, ../sass/_toolbox.scss */
+/* line 1335, ../sass/_toolbox.scss */
 .calibration_inge .eprom_protect .bt_eprom, .calibration_inge .switch_calibration .bt_eprom {
   border-radius: 5px;
   background: #c4c4c4;
@@ -2839,7 +2913,7 @@ and open the template in the editor.
   margin-right: auto;
   margin-bottom: 10px;
 }
-/* line 1301, ../sass/_toolbox.scss */
+/* line 1351, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val {
   text-align: center;
   background: #f2f2f2;
@@ -2854,14 +2928,14 @@ and open the template in the editor.
   position: relative;
   margin-bottom: 20px;
 }
-/* line 1314, ../sass/_toolbox.scss */
+/* line 1364, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .title_verify {
   position: absolute;
   font-weight: bold;
   font-style: italic;
   top: -21px;
 }
-/* line 1320, ../sass/_toolbox.scss */
+/* line 1370, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val.blink_me {
   animation: blinker 1s linear infinite;
 }
@@ -2871,37 +2945,37 @@ and open the template in the editor.
     background: white;
   }
 }
-/* line 1330, ../sass/_toolbox.scss */
+/* line 1380, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .current_joystick {
   font-weight: bold;
 }
-/* line 1333, ../sass/_toolbox.scss */
+/* line 1383, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_pourcentage {
   display: inline-block;
   vertical-align: top;
   width: 45%;
   border-right: 1px solid black;
 }
-/* line 1338, ../sass/_toolbox.scss */
+/* line 1388, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_pourcentage .title {
   text-align: left;
   margin-bottom: 10px;
   color: #3b73b9;
   font-style: italic;
 }
-/* line 1344, ../sass/_toolbox.scss */
+/* line 1394, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_pourcentage .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
   width: 100px;
   margin-bottom: 5px;
 }
-/* line 1350, ../sass/_toolbox.scss */
+/* line 1400, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_pourcentage .bloc_right_joy {
   text-align: left;
   width: 100px;
 }
-/* line 1355, ../sass/_toolbox.scss */
+/* line 1405, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_raw_data {
   display: inline-block;
   vertical-align: top;
@@ -2909,26 +2983,26 @@ and open the template in the editor.
   margin-left: 6%;
   color: #515151;
 }
-/* line 1361, ../sass/_toolbox.scss */
+/* line 1411, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_raw_data .title {
   text-align: left;
   margin-bottom: 10px;
   color: #3b73b9;
   font-style: italic;
 }
-/* line 1367, ../sass/_toolbox.scss */
+/* line 1417, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_raw_data .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
   width: 100px;
   margin-bottom: 5px;
 }
-/* line 1373, ../sass/_toolbox.scss */
+/* line 1423, ../sass/_toolbox.scss */
 .calibration_inge .realtime_joysticks_val .bloc_raw_data .bloc_right_joy {
   text-align: left;
   width: 100px;
 }
-/* line 1379, ../sass/_toolbox.scss */
+/* line 1429, ../sass/_toolbox.scss */
 .calibration_inge .download_tool {
   text-align: center;
   background: #f2f2f2;
@@ -2940,22 +3014,22 @@ and open the template in the editor.
   vertical-align: top;
   margin-left: 50px;
 }
-/* line 1389, ../sass/_toolbox.scss */
+/* line 1439, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .title_download {
   font-weight: bold;
   margin-bottom: 10px;
 }
-/* line 1393, ../sass/_toolbox.scss */
+/* line 1443, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .content_upl {
   text-align: left;
   margin-top: -12px;
 }
-/* line 1396, ../sass/_toolbox.scss */
+/* line 1446, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .content_upl span {
   color: green;
   font-weight: bold;
 }
-/* line 1401, ../sass/_toolbox.scss */
+/* line 1451, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .start_download {
   border: 1px solid black;
   background: #3b73b9;
@@ -2968,7 +3042,7 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 1413, ../sass/_toolbox.scss */
+/* line 1463, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .stop_download {
   border: 1px solid black;
   background: red;
@@ -2981,20 +3055,20 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 1425, ../sass/_toolbox.scss */
+/* line 1475, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .downloading_bar_container {
   border: 1px solid black;
   height: 20px;
   margin-top: 6px;
   position: relative;
 }
-/* line 1430, ../sass/_toolbox.scss */
+/* line 1480, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .downloading_bar_container .downloading_bar {
   background: #b9e8ff;
   width: 0%;
   height: 20px;
 }
-/* line 1435, ../sass/_toolbox.scss */
+/* line 1485, ../sass/_toolbox.scss */
 .calibration_inge .download_tool .downloading_bar_container .downloading_bar_content {
   position: absolute;
   margin-left: auto;
@@ -3005,11 +3079,11 @@ and open the template in the editor.
   text-align: center;
   font-weight: bold;
 }
-/* line 1447, ../sass/_toolbox.scss */
+/* line 1497, ../sass/_toolbox.scss */
 .calibration_inge .jauge_container_global {
   text-align: center;
 }
-/* line 1450, ../sass/_toolbox.scss */
+/* line 1500, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge {
   position: relative;
   width: 235px;
@@ -3020,12 +3094,12 @@ and open the template in the editor.
   vertical-align: top;
   margin: 30px;
 }
-/* line 1459, ../sass/_toolbox.scss */
+/* line 1509, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge .title_jauge {
   font-weight: bold;
   font-size: 26px;
 }
-/* line 1466, ../sass/_toolbox.scss */
+/* line 1516, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge .calibrate_bt_1, .calibration_inge .canvas_jauge .calibrate_bt_2, .calibration_inge .canvas_jauge .calibrate_bt_3 {
   position: absolute;
   margin: auto;
@@ -3033,24 +3107,24 @@ and open the template in the editor.
   right: 0;
   top: 60px;
 }
-/* line 1472, ../sass/_toolbox.scss */
+/* line 1522, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge .calibrate_bt_1 .calibrate_tool, .calibration_inge .canvas_jauge .calibrate_bt_2 .calibrate_tool, .calibration_inge .canvas_jauge .calibrate_bt_3 .calibrate_tool {
   border: 3px solid #3b73b9;
   border-radius: 5px;
   padding: 5px;
 }
-/* line 1477, ../sass/_toolbox.scss */
+/* line 1527, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge .calibrate_bt_1 .status_calib, .calibration_inge .canvas_jauge .calibrate_bt_2 .status_calib, .calibration_inge .canvas_jauge .calibrate_bt_3 .status_calib {
   color: #3b73b9;
   font-weight: bold;
   font-size: 21px;
   margin-bottom: 10px;
 }
-/* line 1483, ../sass/_toolbox.scss */
+/* line 1533, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge .calibrate_bt_1 .action_calib, .calibration_inge .canvas_jauge .calibrate_bt_2 .action_calib, .calibration_inge .canvas_jauge .calibrate_bt_3 .action_calib {
   font-size: 18px;
 }
-/* line 1486, ../sass/_toolbox.scss */
+/* line 1536, ../sass/_toolbox.scss */
 .calibration_inge .canvas_jauge .calibrate_bt_1 .validate_calib, .calibration_inge .canvas_jauge .calibrate_bt_2 .validate_calib, .calibration_inge .canvas_jauge .calibrate_bt_3 .validate_calib {
   margin-top: 10px;
   background: #3b73b9;
@@ -3066,18 +3140,18 @@ and open the template in the editor.
   margin-right: auto;
   margin-bottom: 10px;
 }
-/* line 1505, ../sass/_toolbox.scss */
+/* line 1555, ../sass/_toolbox.scss */
 .calibration_inge .informations {
   width: 100px;
   margin-bottom: 10px;
   height: 15px;
   margin-top: 15px;
 }
-/* line 1510, ../sass/_toolbox.scss */
+/* line 1560, ../sass/_toolbox.scss */
 .calibration_inge .informations .zero {
   float: left;
 }
-/* line 1514, ../sass/_toolbox.scss */
+/* line 1564, ../sass/_toolbox.scss */
 .calibration_inge .informations .cent {
   float: right;
 }
