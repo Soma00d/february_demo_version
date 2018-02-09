@@ -191,8 +191,8 @@ and open the template in the editor.
 }
 /* line 67, ../sass/_homepage.scss */
 #content_home .section_container .bloc_container .bloc .photo_tsui {
-  width: 100%;
-  height: auto;
+  width: 440px;
+  height: 217px;
 }
 /* line 73, ../sass/_homepage.scss */
 #content_home .section_container .bloc_container .information_diag, #content_home .section_container .bloc_container .information_finaltest {
@@ -356,8 +356,8 @@ and open the template in the editor.
 }
 /* line 214, ../sass/_homepage.scss */
 #content_homeE .section_container .bloc_container .bloc .photo_tsui {
-  width: 100%;
-  height: auto;
+  width: 440px;
+  height: 217px;
 }
 
 /* line 2, ../sass/_test.scss */

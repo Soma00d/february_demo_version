@@ -261,7 +261,7 @@ $(document).ready(function (){
                                     dataType: 'JSON',
                                     success: function (data, statut) {
                                         dictionary = data;
-                                        var len = data.length;
+                                        var len = dictionary.length;
                                         joystickContainerNewRepair.empty();
                                         buttonContainer.empty();
                                         ledContainer.empty();
@@ -272,7 +272,6 @@ $(document).ready(function (){
                                                 } else if (data[iter].is_led == "2") {
                                                     ledContainer.append("<div class='line id" + data[iter].id + "' data-id='" + data[iter].id + "' data-name='" + data[iter].symbol_name + "' data-function='led_emergency'><span class='td symbol_name'>" + data[iter].symbol_name + "</span><span class='td'>led</span><span class='td'>" + data[iter].description + "</span><span class='td photo_piece'><img src='images/" + data[iter].photo_link + "'></span><span class='td test_bt' data-name='" + data[iter].description + "' data-on='" + data[iter].on_signal + "' data-off='" + data[iter].off_signal + "' data-function='led_emergency' data-canid='" + data[iter].can_id + "'>TEST</span></div>");
                                                 }
-
                                                 buttonContainer.append("<div class='line id" + data[iter].id + "' data-id='" + data[iter].id + "' data-name='" + data[iter].symbol_name + "' data-function='" + data[iter].type + "'><span class='td symbol_name'>" + data[iter].symbol_name + "</span><span class='td'>" + data[iter].type + "</span><span class='td'>" + data[iter].description + "</span><span class='td press'>" + data[iter].pressed_val + "</span><span class='td rel'>" + data[iter].released_val + "</span><span class='td photo_piece'><img src='images/" + data[iter].photo_link + "'></span><span class='td totest'>Not tested</span></div>");
 
 
@@ -853,7 +852,7 @@ $(document).ready(function (){
                                                                 + "</div>"                                                            
                                                             + "</div>"
                                                             + "<div class='bloc_raw_data'>"
-                                                                + "<div class='title'>Raw Values</div>"
+                                                                + "<div class='title'>Axis Raw (RAM)</div>"
                                                                 + "<div class='bloc_left_joy'>"
                                                                 + "<span class='text_config'>Zero X : </span><span class='raw_zero_x get_val'  data-descri='zero_x'>-</span><br>"
                                                                 + "<span class='text_config'>Min X : </span><span class='raw_min_x get_val'  data-descri='left'>-</span><br>"
@@ -2193,19 +2192,20 @@ $(document).ready(function (){
     function sendToSpy(canId, canData) {
         var d = spyBox.get(0);
         d.scrollTop = d.scrollHeight;
-        if (lastSpyMsg !== canData) {
+        var canDataStr = chunk(canData, 2).join(' ');;
+        if (lastSpyMsg !== canData) {            
             var today = new Date();
             var minutes = today.getMinutes();
             var seconds = today.getSeconds();
             var milliseconds = today.getMilliseconds();if(String(milliseconds).length <3){milliseconds="0"+milliseconds};
-            spyBox.append("<div class='line_spy'><span class='can_id_spy' data-id='" + canId + "'>" + canId + "</span> <span class='can_data_spy'>" + canData + "</span> <span class='nb'>1</span><span class='ts'>" + minutes+"m "+seconds+","+milliseconds+"s" + "</span></div>");
+            spyBox.append("<div class='line_spy'><span class='can_id_spy' data-id='" + canId + "'>" + canId + "</span> <span class='can_data_spy'>" + canDataStr + "</span> <span class='nb'>1</span><span class='ts'>" + minutes+"m "+seconds+","+milliseconds+"s" + "</span></div>");
         } else {
             if ($('#dialog-spybox .content_line').is(':empty')) {
                 var today = new Date();
                 var minutes = today.getMinutes();
                 var seconds = today.getSeconds();
                 var milliseconds = today.getMilliseconds();if(String(milliseconds).length <3){milliseconds="0"+milliseconds};
-                spyBox.append("<div class='line_spy'><span class='can_id_spy' data-id='" + canId + "'>" + canId + "</span> <span class='can_data_spy'>" + canData + "</span> <span class='nb'>1</span><span class='ts'>" + minutes+"m "+seconds+","+milliseconds+"s"+ "</span></div>");
+                spyBox.append("<div class='line_spy'><span class='can_id_spy' data-id='" + canId + "'>" + canId + "</span> <span class='can_data_spy'>" + canDataStr + "</span> <span class='nb'>1</span><span class='ts'>" + minutes+"m "+seconds+","+milliseconds+"s"+ "</span></div>");
             } else {
                 var nb = $("#dialog-spybox .content_line .line_spy:last-child .nb").html();
                 var today = new Date();
@@ -2290,6 +2290,15 @@ $(document).ready(function (){
             $(this).remove();
         });
     }
+    function chunk(str, n) {
+        var ret = [];
+        var i;
+        var len;
+        for(i = 0, len = str.length; i < len; i += n) {
+           ret.push(str.substr(i, n))
+        }
+        return ret
+    };
 
 
 
@@ -3241,7 +3250,7 @@ $(document).ready(function (){
 
         }
         for (var i = 0; i < msgCalib.length; i++){
-            var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minZero+" | - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>"
+            var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'> "+msgCalib[i].minZero+"  - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>"
             lineCalib += line;
         }
         
@@ -3267,7 +3276,7 @@ $(document).ready(function (){
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Action</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Test Result</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measure</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>Enable</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" +lineButton+"</div>"
                 + "<h3>EMERGENCY STOP (SAFETY LOOP)</h3>"
-                + "<h5>Test is PASS when <b>CAN signal pressed</b> is present and <b>CAN signal released</b> is present.<br>When tested entry is <b>safety</b>, test is PASS if measured values are between 0Hz-200Hz and 0V-2.4V. </h5>"
+                + "<h5>Test is PASS when <b>CAN signal pressed</b> is present and <b>CAN signal released</b> is present.<br>When tested entry is <b>safety</b>, test is PASS if measured values are 0Hz and 0V. </h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Action</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Test Result</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measure</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>Safety</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" +lineSafety+"</div>"
                 + "<h3>BACKLIGHTS</h3>"
@@ -3278,12 +3287,12 @@ $(document).ready(function (){
                 + "<h5>Test is PASS when user has confirmed 8 is lit. </h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Test Result</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" + lineDisplay + "</div>"
-                + "<h3>CALIBRATION</h3>"
+                + "<h3>CALIBRATION (calibration FW)</h3>"
                 + "<h5>Test is PASS when axis raw value is in the range of acceptance from database. </h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Raw Data</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Zero Range</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Axis Range</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>"
                 + "<div>" + lineCalib + "</div>"
-                + "<h3>JOYSTICKS</h3>"
-                + "<h5>Test is PASS when axis value reaches (-)100%. </h5>"
+                + "<h3>JOYSTICKS (functionnal FW)</h3>"
+                + "<h5>Test is PASS when axis value reaches +/-100%. </h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Linearity Result</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Range Result</b></span><span style='display:inline-block;vertical-align:top;width:80px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" + lineJoystick + "</div>"
                 + "<h3>BUZZER</h3>"
@@ -4795,7 +4804,7 @@ $(document).ready(function (){
     
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////// PING BAD BTN           ///////////////////////////////////////////////////////////////
+    /////////////////////////////////////////// PING SERVICE BTN           ///////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     $(".get_bad").on('click', function(){
@@ -4818,17 +4827,6 @@ $(document).ready(function (){
         }
         
     })
-    function startVerifyGetBAD() {
-        
-        
-    }
-    function stopVerifyGetBAD() {
-        $(".verify_calibration.id" + identifier).removeClass("hidden");
-        $(".stop_calibration_verif.id" + identifier).addClass("hidden");
-        clearInterval(intervalVerify);
-        _MODE = "CALIBRATION";
-        $(".id" + identifier).removeClass("blink_me");
-    }
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -5153,6 +5151,7 @@ $(document).ready(function (){
     $(".head_logo").on('click', function(){
         _MODE = "START";
     });
+    
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// SEND SIGNAL TO DRIVER ////////////////////////////////////////////////////////////////
