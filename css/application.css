@@ -1091,7 +1091,71 @@ and open the template in the editor.
   margin-top: 15px;
 }
 
-/* line 2, ../sass/_calibration.scss */
+/* line 3, ../sass/_calibration.scss */
+#content_calibration .calibration_step_1 .validate_step1_calib {
+  margin-right: auto;
+  margin-left: auto;
+  width: 185px;
+  padding: 10px;
+  font-size: 19px;
+  text-align: center;
+  margin-top: 30px;
+  color: white;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px black;
+  background: #3b73b9;
+  cursor: pointer;
+  position: relative;
+}
+/* line 20, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .title, #content_calibration .repair_calib_section_serv .title {
+  font-size: 23px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 35px;
+}
+/* line 27, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box, #content_calibration .repair_calib_section_switch .serv_pos_box, #content_calibration .repair_calib_section_serv .switch_pos_box, #content_calibration .repair_calib_section_serv .serv_pos_box {
+  text-align: center;
+  background: #f2f3ff;
+  padding: 30px;
+}
+/* line 31, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  width: 160px;
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px;
+  background: white;
+}
+/* line 41, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test.test_ok, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test.test_ok, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test.test_ok, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test.test_ok, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test.test_ok, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test.test_ok, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test.test_ok, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test.test_ok {
+  background: #c7ffbd;
+}
+/* line 44, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test.test_fail, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test.test_fail, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test.test_fail, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test.test_fail, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test.test_fail, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test.test_fail, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test.test_fail, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test.test_fail {
+  background: #ffbdbd;
+}
+/* line 47, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test .switch_name, #content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test .serv_name, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test .switch_name, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test .serv_name, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test .switch_name, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test .serv_name, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test .switch_name, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test .serv_name, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test .switch_name, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test .serv_name, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test .switch_name, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test .serv_name, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test .switch_name, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test .serv_name, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test .switch_name, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test .serv_name {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+/* line 52, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test .switch_bt_check, #content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test .serv_bt_check, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test .switch_bt_check, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test .serv_bt_check, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test .switch_bt_check, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test .serv_bt_check, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test .switch_bt_check, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test .serv_bt_check, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test .switch_bt_check, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test .serv_bt_check, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test .switch_bt_check, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test .serv_bt_check, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test .switch_bt_check, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test .serv_bt_check, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test .switch_bt_check, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test .serv_bt_check {
+  margin-bottom: 5px;
+}
+/* line 55, ../sass/_calibration.scss */
+#content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test .switch_test, #content_calibration .repair_calib_section_switch .switch_pos_box .switch_line_test .serv_test, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test .switch_test, #content_calibration .repair_calib_section_switch .switch_pos_box .serv_line_test .serv_test, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test .switch_test, #content_calibration .repair_calib_section_switch .serv_pos_box .switch_line_test .serv_test, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test .switch_test, #content_calibration .repair_calib_section_switch .serv_pos_box .serv_line_test .serv_test, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test .switch_test, #content_calibration .repair_calib_section_serv .switch_pos_box .switch_line_test .serv_test, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test .switch_test, #content_calibration .repair_calib_section_serv .switch_pos_box .serv_line_test .serv_test, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test .switch_test, #content_calibration .repair_calib_section_serv .serv_pos_box .switch_line_test .serv_test, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test .switch_test, #content_calibration .repair_calib_section_serv .serv_pos_box .serv_line_test .serv_test {
+  margin-bottom: 5px;
+}
+/* line 63, ../sass/_calibration.scss */
 #content_calibration .warning_firmware {
   padding: 5px;
   border: 2px solid orange;
@@ -1104,7 +1168,7 @@ and open the template in the editor.
   text-align: center;
   position: relative;
 }
-/* line 13, ../sass/_calibration.scss */
+/* line 74, ../sass/_calibration.scss */
 #content_calibration .warning_firmware img {
   width: 32px;
   display: inline-block;
@@ -1114,7 +1178,7 @@ and open the template in the editor.
   top: -16px;
   left: -16px;
 }
-/* line 23, ../sass/_calibration.scss */
+/* line 84, ../sass/_calibration.scss */
 #content_calibration .continue_to_finaltest {
   margin-top: 21px;
   background: #3b73b9;
@@ -1131,7 +1195,7 @@ and open the template in the editor.
   margin-bottom: 10px;
   text-align: center;
 }
-/* line 39, ../sass/_calibration.scss */
+/* line 100, ../sass/_calibration.scss */
 #content_calibration .bt_moins {
   border: 1px solid black;
   cursor: pointer;
@@ -1144,7 +1208,7 @@ and open the template in the editor.
   margin: 5px;
   padding-top: 3px;
 }
-/* line 51, ../sass/_calibration.scss */
+/* line 112, ../sass/_calibration.scss */
 #content_calibration .bt_plus {
   border: 1px solid black;
   cursor: pointer;
@@ -1157,17 +1221,17 @@ and open the template in the editor.
   margin: 5px;
   padding-top: 3px;
 }
-/* line 63, ../sass/_calibration.scss */
+/* line 124, ../sass/_calibration.scss */
 #content_calibration .intitule {
   font-weight: bold;
   font-size: 30px;
   text-align: center;
 }
-/* line 69, ../sass/_calibration.scss */
+/* line 130, ../sass/_calibration.scss */
 #content_calibration .toolbox_calibration {
   text-align: center;
 }
-/* line 72, ../sass/_calibration.scss */
+/* line 133, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val {
   text-align: center;
   background: #f2f2f2;
@@ -1181,14 +1245,14 @@ and open the template in the editor.
   margin: 10px;
   position: relative;
 }
-/* line 84, ../sass/_calibration.scss */
+/* line 145, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .title_verify {
   position: absolute;
   font-weight: bold;
   font-style: italic;
   top: -21px;
 }
-/* line 90, ../sass/_calibration.scss */
+/* line 151, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val.blink_me {
   animation: blinker 1s linear infinite;
 }
@@ -1198,37 +1262,37 @@ and open the template in the editor.
     background: white;
   }
 }
-/* line 100, ../sass/_calibration.scss */
+/* line 161, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .current_joystick {
   font-weight: bold;
 }
-/* line 103, ../sass/_calibration.scss */
+/* line 164, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage {
   display: inline-block;
   vertical-align: top;
   width: 45%;
   border-right: 1px solid black;
 }
-/* line 108, ../sass/_calibration.scss */
+/* line 169, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage .title {
   text-align: left;
   margin-bottom: 10px;
   color: #3b73b9;
   font-style: italic;
 }
-/* line 114, ../sass/_calibration.scss */
+/* line 175, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
   width: 100px;
   margin-bottom: 5px;
 }
-/* line 120, ../sass/_calibration.scss */
+/* line 181, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_pourcentage .bloc_right_joy {
   text-align: left;
   width: 100px;
 }
-/* line 125, ../sass/_calibration.scss */
+/* line 186, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data {
   display: inline-block;
   vertical-align: top;
@@ -1236,26 +1300,26 @@ and open the template in the editor.
   margin-left: 6%;
   color: #515151;
 }
-/* line 131, ../sass/_calibration.scss */
+/* line 192, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .title {
   text-align: left;
   margin-bottom: 10px;
   color: #3b73b9;
   font-style: italic;
 }
-/* line 137, ../sass/_calibration.scss */
+/* line 198, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
   width: 100px;
   margin-bottom: 5px;
 }
-/* line 143, ../sass/_calibration.scss */
+/* line 204, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .bloc_right_joy {
   text-align: left;
   width: 100px;
 }
-/* line 149, ../sass/_calibration.scss */
+/* line 210, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif {
   border: 2px solid #3b73b9;
   padding: 15px;
@@ -1265,33 +1329,33 @@ and open the template in the editor.
   margin-left: auto;
   margin-right: auto;
 }
-/* line 157, ../sass/_calibration.scss */
+/* line 218, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif .line_validate_calib {
   margin-bottom: 20px;
 }
-/* line 159, ../sass/_calibration.scss */
+/* line 220, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif .line_validate_calib:last-child {
   margin-bottom: 0px;
 }
-/* line 162, ../sass/_calibration.scss */
+/* line 223, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif .line_validate_calib .check_calib {
   display: inline-block;
   vertical-align: middle;
   width: 25px;
   margin-right: 15px;
 }
-/* line 170, ../sass/_calibration.scss */
+/* line 231, ../sass/_calibration.scss */
 #content_calibration .calibration_test_container {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 30px;
 }
-/* line 175, ../sass/_calibration.scss */
+/* line 236, ../sass/_calibration.scss */
 #content_calibration .calibration_zone_container {
   text-align: center;
   margin-top: 30px;
 }
-/* line 179, ../sass/_calibration.scss */
+/* line 240, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate {
   display: inline-block;
   border: 1px solid black;
@@ -1301,13 +1365,13 @@ and open the template in the editor.
   width: 280px;
   vertical-align: top;
 }
-/* line 187, ../sass/_calibration.scss */
+/* line 248, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate .bloc_gestion_calib {
   width: 50%;
   display: inline-block;
   vertical-align: middle;
 }
-/* line 192, ../sass/_calibration.scss */
+/* line 253, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate .img_calib {
   width: 40%;
   display: inline-block;
@@ -1315,12 +1379,12 @@ and open the template in the editor.
   height: 70px;
   margin-left: 12px;
 }
-/* line 198, ../sass/_calibration.scss */
+/* line 259, ../sass/_calibration.scss */
 #content_calibration .bloc_calibrate .img_calib img {
   width: 100%;
   height: auto;
 }
-/* line 204, ../sass/_calibration.scss */
+/* line 265, ../sass/_calibration.scss */
 #content_calibration .validate_calib {
   cursor: pointer;
   background: #3b73b9;
@@ -1331,18 +1395,18 @@ and open the template in the editor.
   margin-top: 10px;
   border-radius: 5px;
 }
-/* line 214, ../sass/_calibration.scss */
+/* line 275, ../sass/_calibration.scss */
 #content_calibration .title_jauge {
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 10px;
   color: #3b73b9;
 }
-/* line 220, ../sass/_calibration.scss */
+/* line 281, ../sass/_calibration.scss */
 #content_calibration .status_calib {
   margin-bottom: 10px;
 }
-/* line 223, ../sass/_calibration.scss */
+/* line 284, ../sass/_calibration.scss */
 #content_calibration .eprom_protect {
   width: 199px;
   border: 2px solid #3b73b9;
@@ -1351,7 +1415,7 @@ and open the template in the editor.
   display: inline-block;
   vertical-align: top;
 }
-/* line 230, ../sass/_calibration.scss */
+/* line 291, ../sass/_calibration.scss */
 #content_calibration .eprom_protect .img_eprom {
   width: 35px;
   height: auto;
@@ -1359,12 +1423,12 @@ and open the template in the editor.
   vertical-align: middle;
   margin-right: 10px;
 }
-/* line 237, ../sass/_calibration.scss */
+/* line 298, ../sass/_calibration.scss */
 #content_calibration .eprom_protect .txt_eprom {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 241, ../sass/_calibration.scss */
+/* line 302, ../sass/_calibration.scss */
 #content_calibration .eprom_protect .bt_eprom {
   border-radius: 5px;
   background: #c4c4c4;

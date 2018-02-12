@@ -39,10 +39,10 @@ $(document).ready(function (){
     var counterDisplayFreqTens = 0;
     
     var latSwitchCtn = $("#content_toolbox .latSwitch");
-    var autoposDRCtn = $("#content_toolbox .autoposDR")
-    var globGantryCtn = $("#content_toolbox .globGantry")
-    var sciFRTLCtn = $("#content_toolbox .sciFRTL")
-    var sciLATCtn = $("#content_toolbox .sciLAT")
+    var autoposDRCtn = $("#content_toolbox .autoposDR");
+    var globGantryCtn = $("#content_toolbox .globGantry");
+    var sciFRTLCtn = $("#content_toolbox .sciFRTL");
+    var sciLATCtn = $("#content_toolbox .sciLAT");
     
     var longEnableCtn = $("#content_toolbox .longEnable");
     var TBLtopPanCtn =$("#content_toolbox .TBLtopPan");
@@ -78,6 +78,8 @@ $(document).ready(function (){
     var typeChoice = "";
     var tstName = "";
     var sectionRepair = "";
+    var switchNb;
+    var hasServiceBt;
     var switchPosNumber;
     var nodeID;
     var cobID1;
@@ -440,6 +442,8 @@ $(document).ready(function (){
                                     globalName = data[0].family_name;
                                     modelName = data[0].model;
                                     typeChoice = data[0].type;
+                                    switchNb = data[0].switch_pos_number;
+                                    hasServiceBt = data[0].has_service_bt;
 
                                     $(".photo_tsui").attr('src', 'images/' + photo);
                                     $(".title_bloc.name").html(familyName);
@@ -454,12 +458,17 @@ $(document).ready(function (){
                                     $(".popup_test_fw .bt_no").addClass(sectionRepair);
                                     $(".popup_test_fw .bt_yes").addClass(sectionRepair);
 
-
+                                    
                                     setGenericMessages(globalName.trim());
                                     setTimeout(function(){
                                         getInfoCard(globalName, cobID2);
                                     },500);
                                     checkSN(serialNumber);
+                                    
+                                    displayCalibrationTest(switchNb, hasServiceBt);
+                                    if(parseInt(switchNb) > 0){
+                                        fillSwitchTest(switchNb);
+                                    }
                                 }
                                 //Recupération du dictionnaire correspondant + remplissage du tableau diagnostique
                                 $.ajax({
@@ -3096,6 +3105,11 @@ $(document).ready(function (){
         var lineJoystick = "";
         var lineBuzzer = "";
         var lineCalib = "";
+        var counterCalibServ = 0;
+        var counterCalibSwitch = 0;
+        var lineCalibJoystick = "<h4>Joysticks calibration</h4><h5>Test is PASS when axis raw value is in the range of acceptance from database. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Raw Data</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Zero Range</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Axis Range</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
+        var lineCalibService = "<h4>Service button</h4><h5>Test is PASS when user correctly checks press/release actions on the button. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
+        var lineCalibSwitch = "<h4>Switch position</h4><h5>Test is PASS when user correctly checks switch positions. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
         var lsl = 21.6;
         var usl = 26.4;
         var testAlimGlobal;
@@ -3249,10 +3263,29 @@ $(document).ready(function (){
             }
 
         }
-        for (var i = 0; i < msgCalib.length; i++){
-            var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'> "+msgCalib[i].minZero+"  - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>"
-            lineCalib += line;
+        for (var i = 0; i < msgCalib.length; i++){            
+            if(msgCalib[i].type == "joystick"){
+                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'> "+msgCalib[i].minZero+"  - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>";
+                lineCalibJoystick += line;
+            }else if(msgCalib[i].type == "service"){
+                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>";
+                lineCalibService += line;
+                counterCalibServ++;
+            }else if(msgCalib[i].type == "switch"){
+                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>";
+                lineCalibSwitch += line;
+                counterCalibSwitch++;
+            }            
         }
+        if(counterCalibServ > 0){
+            lineCalib += lineCalibService;
+        }
+        if(counterCalibSwitch > 0){
+            lineCalib += lineCalibSwitch;
+        }
+        lineCalib += lineCalibJoystick;
+        
+        
         
         
         var myWindow = window.open('', '', 'width=1000,height=800');
@@ -3287,9 +3320,7 @@ $(document).ready(function (){
                 + "<h5>Test is PASS when user has confirmed 8 is lit. </h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Test Result</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" + lineDisplay + "</div>"
-                + "<h3>CALIBRATION (calibration FW)</h3>"
-                + "<h5>Test is PASS when axis raw value is in the range of acceptance from database. </h5>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Raw Data</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Zero Range</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Axis Range</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>"
+                + "<h3>CALIBRATION (calibration FW)</h3>"                
                 + "<div>" + lineCalib + "</div>"
                 + "<h3>JOYSTICKS (functionnal FW)</h3>"
                 + "<h5>Test is PASS when axis value reaches +/-100%. </h5>"
@@ -3400,6 +3431,21 @@ $(document).ready(function (){
         }, 200);
         
     });
+    
+    $(".serv_bt_check").on('click', function(){
+        var _this = $(this);
+        testServiceButton(_this);
+    });
+    $(".validate_step1_calib").on('click', function(){
+        var errorNB = testStep1Calibration();
+        if(errorNB == 0){
+            getStep1CalibrationLog();
+            $(".calibration_step_1").addClass("hidden");
+            $(".calibration_step_2").removeClass("hidden");
+        }else{
+            alert("Switch position test or Service button test is not complete/valid.")
+        }
+    })
 
     function startCalibrate(subindexX, subindexY, id) {
         _MODE = "CALIBRATION";
@@ -3713,7 +3759,258 @@ $(document).ready(function (){
         });
     }
 
+    //fonctions de test des boutons services ainsi que des switchs position
+    function displayCalibrationTest(switchNb, hasServiceBt){
+        console.log(switchNb+" "+hasServiceBt);
+        if(parseInt(switchNb)> 0 || hasServiceBt == 1){
+            $(".calibration_step_1").removeClass("hidden");
+            $(".calibration_step_2").addClass("hidden");
+            
+        }else{
+            $(".calibration_step_1").addClass("hidden");
+            $(".calibration_step_2").removeClass("hidden");
+        }
+        
+        if(parseInt(switchNb)> 0){            
+            $(".repair_calib_section_switch").removeClass("hidden");
+            $(".repair_calib_section_switch").addClass("need_test");
+        }else{            
+            $(".repair_calib_section_switch").addClass("hidden");
+            $(".repair_calib_section_switch").removeClass("need_test");
+        }
+        
+        if(hasServiceBt == 1){
+            $(".repair_calib_section_serv").removeClass("hidden");
+            $(".repair_calib_section_serv").addClass("need_test");
+        }else{
+            $(".repair_calib_section_serv").addClass("hidden");
+            $(".repair_calib_section_serv").removeClass("need_test");
+        }
+    }    
+    function fillSwitchTest(switchNb){
+        var containerSwitch = $(".repair_calib_section_switch .switch_pos_box");
+        containerSwitch.empty();
+        switch(switchNb){
+            case "2":
+                containerSwitch.append(
+                    "<div class='switch_line_test' data-position='left'>"+
+                        "<div class='switch_name'>Position LEFT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"+
+                    "<div class='switch_line_test' data-position='right'>"+
+                        "<div class='switch_name'>Position RIGHT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"
+                );
+            break;
+            case "3":
+                containerSwitch.append(
+                    "<div class='switch_line_test' data-position='left'>"+
+                        "<div class='switch_name'>Position LEFT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"+
+                    "<div class='switch_line_test' data-position='middle'>"+
+                        "<div class='switch_name'>Position MIDDLE</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"+
+                    "<div class='switch_line_test' data-position='right'>"+
+                        "<div class='switch_name'>Position RIGHT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"
+                );
+            break;
+            case "4":
+                containerSwitch.append(
+                    "<div class='switch_line_test' data-position='left'>"+
+                        "<div class='switch_name'>Position LEFT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"+
+                    "<div class='switch_line_test' data-position='front'>"+
+                        "<div class='switch_name'>Position FRONT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"+
+                    "<div class='switch_line_test' data-position='right'>"+
+                        "<div class='switch_name'>Position RIGHT</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"+
+                    "<div class='switch_line_test' data-position='back'>"+
+                        "<div class='switch_name'>Position BACK</div>"+
+                        "<button class='switch_bt_check'>Check Position</button>"+
+                        "<div class='switch_test'></div>"+
+                        "<div class='switch_result'></div>"+
+                    "</div>"
+                );
+            break;                
+        }
+        $(".switch_bt_check").on('click', function(){
+            var _this = $(this);
+           _MODE = "CALIBRATION";
+           var resultWaited = $(this).parent().data('position');
+           var resultDone = "";
+           
+            var pingSignal = Cal_post+"040000"+cobID2+"40006001";
+            sendSignal(pingSignal);
+            waitPingResponse = cobID1;
+            
+            setTimeout(function () {
+                 var response = finalResponseData.substring(8,10);
+                 switch(response){
+                     case "00":
+                         if(switchNb == "3"){
+                             resultDone = "";
+                         }else if(switchNb == "4"){
+                             resultDone = "left";
+                         }    
+                         break;
+                     case "08":
+                         if(switchNb == "3"){
+                             resultDone = "right";
+                         }else if(switchNb == "4"){
+                             resultDone = "front";
+                         }                         
+                         break;
+                     case "10":
+                         if(switchNb == "3"){
+                             resultDone = "left";
+                         }else if(switchNb == "4"){
+                             resultDone = "right";
+                         }    
+                         break;
+                     case "18":
+                         if(switchNb == "3"){
+                             resultDone = "middle";
+                         }else if(switchNb == "4"){
+                             resultDone = "back";
+                         }    
+                         break;
+                 }
+                 console.log(resultDone+" waited : "+resultWaited);
+                 
+                 if(resultWaited == resultDone){
+                     _this.parent().addClass("test_ok");
+                     _this.parent().removeClass("test_fail");
+                     _this.parent().find(".switch_test").html("Test Pass");
+                 }else{
+                     _this.parent().addClass("test_fail");
+                     _this.parent().removeClass("test_ok");
+                     _this.parent().find(".switch_test").html("Test Fail");
+                 }
+                 
+            }, 200);
+        });
+                
+    }
+    function testServiceButton(_this){               
+        _MODE = "CALIBRATION";
+        var resultWaited = _this.parent().data('position');
+        var resultDone = "";
+
+        var pingSignal = Cal_post+"080000"+cobID2+"40006003";
+        sendSignal(pingSignal);
+        waitPingResponse = cobID1;
+
+        setTimeout(function () {
+             var response = finalResponseData.substring(8,10);
+             switch(response){
+                 case "00":
+                    resultDone = "released";
+                    break;
+                 case "40":                         
+                    resultDone = "pressed";
+                    break;
+             }
+             console.log(resultDone+" waited : "+resultWaited);
+
+             if(resultWaited == resultDone){
+                 _this.parent().addClass("test_ok");
+                 _this.parent().removeClass("test_fail");
+                 _this.parent().find(".switch_test").html("Test Pass");
+             }else{
+                 _this.parent().addClass("test_fail");
+                 _this.parent().removeClass("test_ok");
+                 _this.parent().find(".switch_test").html("Test Fail");
+             }
+
+        }, 200);
+    }
+    function testStep1Calibration(){
+        var error = 0;
+        $(".sectiontest").each(function(){
+            if($(this).hasClass("need_test") && $(this).hasClass("repair_calib_section_switch") ){
+                $(this).find(".switch_line_test").each(function(){
+                    if(!$(this).hasClass("test_ok")){
+                        error++;
+                    }
+                });            
+            }else if($(this).hasClass("need_test") && $(this).hasClass("repair_calib_section_serv")){
+                $(this).find(".serv_line_test").each(function(){
+                    if(!$(this).hasClass("test_ok")){
+                        error++;
+                    }
+                });
+            }
+        });
+        return error;
+    }
     
+    function getStep1CalibrationLog(){
+        $("#content_calibration .calibration_step_1 .need_test").each(function(){
+            $(this).find(".switch_line_test").each(function(){
+                var type = "switch";
+                var symbol_name = "Switch";
+                var description = $(this).data('position');
+                var standard_name = "I9";
+                var min_axis = "";
+                var max_axis = "";
+                var min_zero = "";
+                var max_zero = "";     
+                if($(this).hasClass("test_ok")){
+                    var result = "PASS";
+                }else{
+                    var result = "FAIL";
+                }
+                calibLog.push({type: type, name: symbol_name, standard_name: standard_name, description: description, result: result, minAxis : min_axis, maxAxis : max_axis, minZero : min_zero, maxZero : max_zero});
+                 
+            })
+            
+            $(this).find(".serv_line_test").each(function(){
+                var type = "service";
+                var symbol_name = "BAD";
+                var description = $(this).data('position');
+                var standard_name = "2IIa";
+                var min_axis = "";
+                var max_axis = "";
+                var min_zero = "";
+                var max_zero = "";     
+                if($(this).hasClass("test_ok")){
+                    var result = "PASS";
+                }else{
+                    var result = "FAIL";
+                }
+                calibLog.push({type: type, name: symbol_name, standard_name: standard_name, description: description, result: result, minAxis : min_axis, maxAxis : max_axis, minZero : min_zero, maxZero : max_zero});
+                 
+            })
+            
+        });
+        calibLogJSON = JSON.stringify(calibLog);
+        console.log(calibLogJSON);
+    }    
 
     ////////////////////////////////////////////////////////////////////////////
     //////////////////////VERIFY CALIBRATION////////////////////////////////////
@@ -3841,7 +4138,7 @@ $(document).ready(function (){
             $(this).find(".get_val").each(function(){
                 var description = $(this).data('descri').toUpperCase();
                 var result = $(this).html();            
-                calibLog.push({name: symbol_name, standard_name: standard_name, description: description, result: result, minAxis : min_axis, maxAxis : max_axis, minZero : min_zero, maxZero : max_zero});
+                calibLog.push({type: "joystick", name: symbol_name, standard_name: standard_name, description: description, result: result, minAxis : min_axis, maxAxis : max_axis, minZero : min_zero, maxZero : max_zero});
             });                        
             
         });
