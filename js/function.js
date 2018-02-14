@@ -35,6 +35,8 @@ $(document).ready(function (){
     var supplyContainer = $("#content_toolbox .diag_inge .supply_container .content");
     var safetySRTL = $("#content_toolbox .diag_inge .srtl_container .safety_srtl");
     var enableSRTL = $("#content_toolbox .diag_inge .srtl_container .enable_srtl");
+    var safetySRTLfinal = "";
+    var enableSRTLfinal = "";
     var hasSRTL;
     var counterDisplayFreqTens = 0;
     
@@ -60,6 +62,7 @@ $(document).ready(function (){
     var joystickContainerNewRepair = $(".joystick_container_new_repair");
     var intervalVerify;
     var currentIdentifier;
+    var currentSubindex;
     var currentSubindexX;
     var currentSubindexY;
 
@@ -87,6 +90,7 @@ $(document).ready(function (){
     var FWfctV = "-";
     var FWcalibV = "-";
     var SWv = "-";
+    var shouldHaveSRTL;
 
     var activeSearchHistoryResult = {};
 
@@ -125,8 +129,10 @@ $(document).ready(function (){
     var pressValueContinue;
     var releaseValueContinue;
     var hardwareValidation;
+    var hardwareValidationReleased;
     var validateTest = 0;
     var errorTestFinal = 0;
+    var SRTLfinalTest = 0;
 
     var waitingEnableAndSafety;
     var indexFinal;
@@ -146,6 +152,10 @@ $(document).ready(function (){
     var enableT = 0;
     var safetyT = 0;
     var safetyF = 0;
+    var enableFrel = 0;
+    var enableTrel = 0;
+    var safetyTrel = 0;
+    var safetyFrel = 0;
     var isEnable;
     var isSafety;
     var isCdrh;
@@ -153,13 +163,19 @@ $(document).ready(function (){
     var currEnableF = 0;
     var currSafetyT = 0;
     var currSafetyF = 0;
+    var currEnableSRTL = "";
+    var currSafetySRTL = "";   
+    var currEnableSRTLrel = "";
+    var currSafetySRTLrel = "";   
     var currGlobalVoltage = 0;
     var currTsuiVoltage = 0;
     var initial_enable_tens = 0;
     var initial_enable_freq = 0;
     var initial_safety_tens = 0;
     var initial_safety_freq = 0;
-
+    var initial_safety_srtl = 0;
+    var initial_enable_srtl = 0;
+    
     //Spybox
     var spyBox = $("#dialog-spybox .content_line");
     var spyBoxDialog = $("#dialog-spybox");
@@ -444,6 +460,7 @@ $(document).ready(function (){
                                     typeChoice = data[0].type;
                                     switchNb = data[0].switch_pos_number;
                                     hasServiceBt = data[0].has_service_bt;
+                                    shouldHaveSRTL = data[0].has_SRTL;
 
                                     $(".photo_tsui").attr('src', 'images/' + photo);
                                     $(".title_bloc.name").html(familyName);
@@ -538,7 +555,7 @@ $(document).ready(function (){
                                                             +"<div class='bloc_gestion_calib'>"
                                                                 + "<div class='title_jauge'>" + data[iter].description + "</div>"
                                                                 + "<div class='calibrate_bt'>"
-                                                                + "<button dclass='mushroom' data-mush='" + data[iter].calib_subindex_x + "' data-id='" + data[iter].id + "'>Calibrate</button>"
+                                                                + "<button class='mushroom' data-mush='" + data[iter].calib_subindex_x + "' data-id='" + data[iter].id + "'>Calibrate</button>"
                                                                 + "<div class='calibrate_tool hidden'>"
                                                                 + "<div class='status_calib'></div>"
                                                                 + "<div class='action_calib'></div>"
@@ -549,11 +566,11 @@ $(document).ready(function (){
                                                             +"<div class='img_calib'><img src='images/" + data[iter].photo_link + "'></div>"
                                                             + "</div>");                                                           
                                                             
-                                                    joystickVerifyContainer.append("<div class='realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "'>"
+                                                    joystickVerifyContainer.append("<div class='mushroom_verify realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "' data-minaxis='-' data-maxaxis='-' data-minzero='-' data-maxzero='-'>"
                                                             + "<div class='joystick_val_info'>"
                                                             + "<div class='title_verify'>" + data[iter].description + "</div>"
-                                                            + "<button class='verify_calibration id" + data[iter].id + "' data-long='" + data[iter].calib_subindex_x + "' data-lat='" + data[iter].calib_subindex_y + "' data-id='" + data[iter].id + "'>Verify</button> "
-                                                            + "<button class='stop_calibration_verif id" + data[iter].id + " hidden' data-id='" + data[iter].id + "'>Stop</button><br><br>"
+                                                            + "<button class='mushroom verify_calibration id" + data[iter].id + "' data-mush='" + data[iter].calib_subindex_x + "' data-id='" + data[iter].id + "'>Verify</button> "
+                                                            + "<button class='mushroom stop_calibration_verif id" + data[iter].id + " hidden' data-id='" + data[iter].id + "'>Stop</button><br><br>"
                                                             + "<div class='bloc_pourcentage'>"
                                                                 + "<div class='title'>Final Values</div>"
                                                                 + "<div class='bloc_left_joy'>"
@@ -567,17 +584,17 @@ $(document).ready(function (){
                                                                 + "<span class='text_config'>Max Y : </span><span class='maxy_value_joy'>0</span>"
                                                                 + "</div>"                                                            
                                                             + "</div>"
-                                                            + "<div class='bloc_raw_data'>"
+                                                            + "<div class='bloc_raw_data mushroom'>"
                                                                 + "<div class='title'>Raw Values</div>"
                                                                 + "<div class='bloc_left_joy'>"
-                                                               + "<span class='text_config'>Zero X : </span><span class='raw_zero_x get_val'  data-descri='zero_x'>-</span><br>"
-                                                                + "<span class='text_config'>Min X : </span><span class='raw_min_x get_val'  data-descri='left'>-</span><br>"
-                                                                + "<span class='text_config'>Max X : </span><span class='raw_max_x get_val'  data-descri='right'>-</span><br>"
+                                                                + "<span class='text_config'>Axis Raw X : </span><span class='axis_raw_x get_val'  data-descri='axis_raw_x'>-</span><br>"
+                                                                + "<span class='text_config'>Zero Dead X : </span><span class='zero_dead_x get_val'  data-descri='zero_dead_x'>-</span><br>"
+                                                                + "<span class='text_config'>Fix Slope X : </span><span class='fix_slope_x get_val'  data-descri='fix_slope_x'>-</span><br>"
                                                                 + "</div>"
                                                                 + "<div class='bloc_right_joy'>"
-                                                                + "<span class='text_config'>Zero Y : </span><span class='raw_zero_y get_val' data-descri='zero_y'>-</span><br>"
-                                                                + "<span class='text_config'>Min Y : </span><span class='raw_min_y get_val' data-descri='bottom'>-</span><br>"
-                                                                + "<span class='text_config'>Max Y : </span><span class='raw_max_y get_val' data-descri='top'>-</span>"
+                                                                + "<span class='text_config'>Axis Raw Y : </span><span class='axis_raw_y get_val' data-descri='axis_raw_y'>-</span><br>"
+                                                                + "<span class='text_config'>Zero Dead Y : </span><span class='zero_dead_y get_val' data-descri='zero_dead_y'>-</span><br>"
+                                                                + "<span class='text_config'>Fix Slope Y : </span><span class='fix_slope_y get_val' data-descri='fix_slope_y'>-</span><br>"
                                                                 + "</div>"                                                            
                                                             + "</div>"
                                                             + "</div>"
@@ -650,18 +667,25 @@ $(document).ready(function (){
 
                                         });
                                         $(".verify_calibration").on('click', function () {
-                                            var subindexX = $(this).data('long');
-                                            var subindexY = $(this).data('lat');
-                                            var identifier = $(this).data('id');
-                                            if (subindexX == "") {
-                                                subindexX = "null"
+                                            if($(this).hasClass("mushroom")){
+                                                var identifier = $(this).data('id');
+                                                var subindex = $(this).data('mush');
+                                                startVerifyCalibrationMushroom(subindex,identifier);
+                                            }else{
+                                                var subindexX = $(this).data('long');
+                                                var subindexY = $(this).data('lat');
+                                                var identifier = $(this).data('id');
+                                                if (subindexX == "") {
+                                                    subindexX = "null"
+                                                }
+                                                ;
+                                                if (subindexY == "") {
+                                                    subindexY = "null"
+                                                }
+                                                ;
+                                                startVerifyCalibration(subindexX, subindexY, identifier);
                                             }
-                                            ;
-                                            if (subindexY == "") {
-                                                subindexY = "null"
-                                            }
-                                            ;
-                                            startVerifyCalibration(subindexX, subindexY, identifier);
+                                           
                                         });
                                         $(".stop_calibration_verif").on('click', function () {
                                             var identifier = $(this).data('id');
@@ -842,7 +866,7 @@ $(document).ready(function (){
                                                             +"</div>"
                                                             +"<div class='img_calib'><img src='images/" + data[iter].photo_link + "'></div>"
                                                             + "</div>");
-                                                    joystickVerifyContainer.append("<div class='realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "'>"
+                                                    joystickVerifyContainer.append("<div class='realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "' data-minaxis='-' data-maxaxis='-' data-minzero='-' data-maxzero='-'>"
                                                             + "<div class='joystick_val_info'>"
                                                             + "<div class='title_verify'>" + data[iter].description + "</div>"
                                                             + "<button class='verify_calibration id" + data[iter].id + "' data-long='" + data[iter].calib_subindex_x + "' data-lat='" + data[iter].calib_subindex_y + "' data-id='" + data[iter].id + "'>Verify</button> "
@@ -893,11 +917,11 @@ $(document).ready(function (){
                                                             +"<div class='img_calib'><img src='images/" + data[iter].photo_link + "'></div>"
                                                             + "</div>");                                                           
                                                             
-                                                    joystickVerifyContainer.append("<div class='realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "'>"
+                                                    joystickVerifyContainer.append("<div class='mushroom_verify realtime_joysticks_val id" + data[iter].id + "' data-symb='" + data[iter].symbol_name + "' data-standard='" + data[iter].standard_name + "'>"
                                                             + "<div class='joystick_val_info'>"
                                                             + "<div class='title_verify'>" + data[iter].description + "</div>"
-                                                            + "<button class='verify_calibration id" + data[iter].id + "' data-long='" + data[iter].calib_subindex_x + "' data-lat='" + data[iter].calib_subindex_y + "' data-id='" + data[iter].id + "'>Verify</button> "
-                                                            + "<button class='stop_calibration_verif id" + data[iter].id + " hidden' data-id='" + data[iter].id + "'>Stop</button><br><br>"
+                                                            + "<button class='mushroom verify_calibration id" + data[iter].id + "' data-mush='" + data[iter].calib_subindex_x + "' data-id='" + data[iter].id + "'>Verify</button> "
+                                                            + "<button class='mushroom stop_calibration_verif id" + data[iter].id + " hidden' data-id='" + data[iter].id + "'>Stop</button><br><br>"
                                                             + "<div class='bloc_pourcentage'>"
                                                                 + "<div class='title'>Final Values</div>"
                                                                 + "<div class='bloc_left_joy'>"
@@ -911,18 +935,18 @@ $(document).ready(function (){
                                                                 + "<span class='text_config'>Max Y : </span><span class='maxy_value_joy'>0</span>"
                                                                 + "</div>"                                                            
                                                             + "</div>"
-                                                            + "<div class='bloc_raw_data'>"
+                                                            + "<div class='bloc_raw_data mushroom'>"
                                                                 + "<div class='title'>Raw Values</div>"
                                                                 + "<div class='bloc_left_joy'>"
-                                                               + "<span class='text_config'>Zero X : </span><span class='raw_zero_x get_val'  data-descri='zero_x'>-</span><br>"
-                                                                + "<span class='text_config'>Min X : </span><span class='raw_min_x get_val'  data-descri='left'>-</span><br>"
-                                                                + "<span class='text_config'>Max X : </span><span class='raw_max_x get_val'  data-descri='right'>-</span><br>"
+                                                                + "<span class='text_config'>Axis Raw X : </span><span class='axis_raw_x get_val'  data-descri='axis_raw_x'>-</span><br>"
+                                                                + "<span class='text_config'>Zero Dead X : </span><span class='zero_dead_x get_val'  data-descri='zero_dead_x'>-</span><br>"
+                                                                + "<span class='text_config'>Fix Slope X : </span><span class='fix_slope_x get_val'  data-descri='fix_slope_x'>-</span><br>"
                                                                 + "</div>"
                                                                 + "<div class='bloc_right_joy'>"
-                                                                + "<span class='text_config'>Zero Y : </span><span class='raw_zero_y get_val' data-descri='zero_y'>-</span><br>"
-                                                                + "<span class='text_config'>Min Y : </span><span class='raw_min_y get_val' data-descri='bottom'>-</span><br>"
-                                                                + "<span class='text_config'>Max Y : </span><span class='raw_max_y get_val' data-descri='top'>-</span>"
-                                                                + "</div>"                                                            
+                                                                + "<span class='text_config'>Axis Raw Y : </span><span class='axis_raw_y get_val' data-descri='axis_raw_y'>-</span><br>"
+                                                                + "<span class='text_config'>Zero Dead Y : </span><span class='zero_dead_y get_val' data-descri='zero_dead_y'>-</span><br>"
+                                                                + "<span class='text_config'>Fix Slope Y : </span><span class='fix_slope_y get_val' data-descri='fix_slope_y'>-</span><br>"
+                                                                + "</div>"                                                                                                       
                                                             + "</div>"
                                                             + "</div>"
                                                             + "</div>");
@@ -1320,40 +1344,54 @@ $(document).ready(function (){
                                 break;
                             case "ENABLE":
                                 if (waitingPressValue == canData) {
-                                    if (waitingEnableAndSafety == 1) {
-                                        console.log("on detecte le cas rel du bouton enable et on lance la fct")
+                                    if (waitingEnableAndSafety == 1) {                                        
                                         setTimeout(function(){
                                             setEnableAndSafetyValues("enable");
                                         }, 50)                                        
                                     }
                                     pressValueContinue = 1;
                                 }
-                                if (waitingReleaseValue == canData) {                                    
+                                if (waitingReleaseValue == canData) { 
                                     releaseValueContinue = 1;
+                                    setTimeout(function(){
+                                        setEnableAndSafetyValuesRel("enable");                                         
+                                    }, 500)    
+                                    
                                 }
-                                if (pressValueContinue == 1 && releaseValueContinue == 1 && hardwareValidation == 1) {
+                                if (pressValueContinue == 1 && releaseValueContinue == 1 && hardwareValidation == 1 && hardwareValidationReleased == 1) {
                                     validateTest = 1;
                                     waitingAction = "";
                                 }
                                 break;
                             case "SAFETY":
                                 if (waitingPressValue == canData) {
-                                    if (waitingEnableAndSafety == 1) {
-                                        console.log("on detecte le cas rel du bouton enable et on lance la fct")
+                                    if (waitingEnableAndSafety == 1) {                                        
                                         setTimeout(function(){
                                             setEnableAndSafetyValues("safety");
-                                        }, 50)                                        
+                                            console.log("après la fonction PRESS "+pressValueContinue+" "+releaseValueContinue+" "+hardwareValidation+" "+hardwareValidationReleased+"====================================================");
+                                        }, 500)                                        
                                     }
                                     pressValueContinue = 1;
-
+                                    //alert("press "+pressValueContinue+" /release "+ releaseValueContinue+" /hwpress "+ hardwareValidation+" /hwrelease "+ hardwareValidationReleased);
                                 }
-                                if (waitingReleaseValue == canData) {                                    
+                                if (waitingReleaseValue == canData) { 
+                                    console.log("on detecte un safety release ====================================================");
                                     releaseValueContinue = 1;
+                                    setTimeout(function(){
+                                        console.log("on declenche la fonction de set après 500ms ====================================================");    
+                                        setEnableAndSafetyValuesRel("safety");       
+                                        console.log("après la fonction REL "+pressValueContinue+" "+releaseValueContinue+" "+hardwareValidation+" "+hardwareValidationReleased+"====================================================");
+                                    }, 500)                                  
+                                //alert("press "+pressValueContinue+" /release "+ releaseValueContinue+" /hwpress "+ hardwareValidation+" /hwrelease "+ hardwareValidationReleased);
                                 }
-                                if (pressValueContinue == 1 && releaseValueContinue == 1 && hardwareValidation == 1) {
+                                if (pressValueContinue == 1 && releaseValueContinue == 1 && hardwareValidation == 1 && hardwareValidationReleased == 1) {
+                                    console.log("on entre dans la verif ===================================================="); 
                                     validateTest = 1;
                                     waitingAction = "";
+                                }    else{
+                                    console.log("on entre dans le ELSE (FALSE) de la verif ===================================================="); 
                                 }
+                                
                                 break;
                             case "JOYSTICK_X_LEFT":
                                 if (waitingID == canId) {
@@ -1456,7 +1494,11 @@ $(document).ready(function (){
                     var globalVoltage = message.globv;
                     var tsuiVoltage = message.tsuiv;
                     var has_SRTL = message.has_srtl;
-
+                    
+                    safetySRTLfinal = srtl.substring(0, 1);
+                    enableSRTLfinal = srtl.substring(1, 2);
+                        
+                        
                     safetyFrequency = convertHexaPic(safetyFrequency);
                     safetyVoltage = convertHexaPic(safetyVoltage) / 51 / 0.138;
                     enableFrequency = convertHexaPic(enableFrequency);
@@ -1538,12 +1580,35 @@ $(document).ready(function (){
                     var canData = message.canData;
 
                     if (canId == cobID1) {
-                        console.log("match" + currentIdentifier);
+                        console.log("match " + currentIdentifier);
                         var subindex = canData.substring(6, 8);
                         var verifyVal = canData.substring(8, 10);
                         if (subindex == currentSubindexX) {
                             updateVerifyData(verifyVal, "x", currentIdentifier);
                         } else if (subindex == currentSubindexY) {
+                            updateVerifyData(verifyVal, "y", currentIdentifier);
+                        } else {
+                            console.log("no match");
+                        }
+
+                    }
+                }
+                break;
+            case "CALIBRATION_VERIFY_MUSHROOM":
+                var message = JSON.parse(event.data);
+                console.log(event.data);
+                if (message.type == "from_GW") {
+                    var canId = message.canId;
+                    var canData = message.canData;
+
+                    if (canId == cobID1) {
+                        console.log("match " + currentIdentifier);
+                        var subindex = canData.substring(6, 8);
+                        var verifyVal = canData.substring(8, 10);
+                        
+                        if (subindex == "01") {
+                            updateVerifyData(verifyVal, "x", currentIdentifier);
+                        } else if (subindex == "02") {
                             updateVerifyData(verifyVal, "y", currentIdentifier);
                         } else {
                             console.log("no match");
@@ -2635,20 +2700,20 @@ $(document).ready(function (){
 
                 for (var i = 0; i < data.length; i++) {
 
-                    if (data[i].type == "button") {
+                    if (data[i].type == "button" && (data[i].is_enable == "1" || data[i].is_safety == "1")) {
                         finalButtonList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable, is_safety: data[i].is_safety});
                         if (data[i].is_led == "1") {
-                            finalLedList.push({symbol_name: data[i].symbol_name, type: "led", description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
+                            //finalLedList.push({symbol_name: data[i].symbol_name, type: "led", description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
                         }
                         else if(data[i].is_led == "2"){
-                            finalLedList.push({symbol_name: data[i].symbol_name, type: "led_spe", description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
+                            //finalLedList.push({symbol_name: data[i].symbol_name, type: "led_spe", description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
                         }
                     } else if (data[i].type == "display") {
-                        finalDisplayList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
+                        //finalDisplayList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
                     } else if (data[i].type == "joystick") {
-                        finalJoystickList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, x_pos: data[i].x_pos, y_pos: data[i].y_pos, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
+                        //finalJoystickList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, x_pos: data[i].x_pos, y_pos: data[i].y_pos, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
                     } else if (data[i].type == "buzzer") {
-                        finalBuzzerList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
+                        //finalBuzzerList.push({symbol_name: data[i].symbol_name, type: data[i].type, description: data[i].description, photo_link: data[i].photo_link, timer: data[i].timer, off_signal: data[i].off_signal, on_signal: data[i].on_signal, can_id: data[i].can_id, pressed_val: data[i].pressed_val, released_val: data[i].released_val, standard_name: data[i].standard_name, is_cdrh: data[i].is_cdrh, is_enable: data[i].is_enable});
                     }
                 }
 
@@ -2682,26 +2747,35 @@ $(document).ready(function (){
         $("#testfinal_container").addClass("hidden");
         $("#user_wait span").html("Please wait while TSUI is restarting.");
         $("#user_wait").removeClass("hidden");
-        if(globalName == "ELEGANCE"){
-            sendSignalPic("5");
-            setTimeout(function(){
-                sendSignal(startNodeMsg);
-                if(typeChoice == "AGILA"){
-                    setTimeout(function(){
-                        var sign = "002400806d68d7551407f09b861e3aad000549a844080000" + cobID2 + "2f01300101000000";
-                        sendSignal(sign);
-                    },100)                    
-                }
-                sendSignalPic("1");
-                setTimeout(function () {           
-                    initial_enable_tens = currEnableT;
-                    initial_enable_freq = currEnableF;
+        sendSignalPic("1"); 
+        if(globalName == "ELEGANCE"){                       
+            sendSignalPic("3");            
+            if(typeChoice == "AGILA"){
+                setTimeout(function(){
+                    sendSignal(startNodeMsg);
+                    var sign = "002400806d68d7551407f09b861e3aad000549a844080000" + cobID2 + "2f01300101000000";
+                    sendSignal(sign);
+                },5000)                    
+            }else{
+                setTimeout(function(){
+                    sendSignal(startNodeMsg);                    
+                },5000)    
+            }
+            setTimeout(function () {
+                if(hasSRTL == 1) {
+                    initial_enable_srtl = enableSRTLfinal;
+                    initial_safety_srtl = safetySRTLfinal;
+                    SRTLfinalTest = 1;
+                }else{
+                    initial_enable_tens = currEnableF;
+                    initial_enable_freq = currEnableT;
                     initial_safety_tens = currSafetyT;
                     initial_safety_freq = currSafetyF;
-                    console.log("on a start et on enregistre les valeurs initiales :"+initial_enable_tens+" "+initial_enable_freq+" "+initial_safety_tens+" "+initial_safety_freq)            
-                    sendSignalPic("2");            
-                }, 300);
-            },4000)
+                    alert(initial_safety_tens+" "+initial_safety_freq)
+                    SRTLfinalTest = 0;
+                }
+            }, 4500);
+            
         }else if(globalName == "OMEGA"){
             if(modelName == "TSSC"){
                 sendSignal("002400806d68d7551407f09b861e3aad000549a8440800001fc22f000e00000000000000");
@@ -2730,8 +2804,8 @@ $(document).ready(function (){
         }     
         
         setTimeout(function () {
-            maxIndexFinal = finalTestEntriesTest.length;
-
+            sendSignalPic("2"); 
+            maxIndexFinal = finalTestEntriesTest.length;            
             console.log(maxIndexFinal);
             console.log(finalTestEntriesTest);
 
@@ -2751,7 +2825,7 @@ $(document).ready(function (){
                 $("#testfinal_container").removeClass("hidden");
                 $("#user_wait").addClass("hidden");
             }
-        }, 5000);
+        }, 6000);
     }
 
     //Affichage du test final en cours
@@ -2769,6 +2843,11 @@ $(document).ready(function (){
         currStandardName = finalTestEntriesTest[indexFinal]["standard_name"];
         enableF = "";
         enableT = "";
+        
+        currEnableSRTL = "0";
+        currSafetySRTL = "0";
+        currEnableSRTLrel = "0";
+        currSafetySRTLrel = "0";
         isCdrh = finalTestEntriesTest[indexFinal]["is_cdrh"];
         isEnable = finalTestEntriesTest[indexFinal]["is_enable"];
         isSafety = finalTestEntriesTest[indexFinal]["is_safety"];
@@ -2936,7 +3015,11 @@ $(document).ready(function (){
         clearInterval(intervalGlobal);
         var line = "";
         if (result == "ok") {
-            line = "<div class='line' data-standard='" + currStandardName + "' data-enablef='" + enableF + "' data-enablet='" + enableT + "' data-safetyf='"+safetyF+"' data-safetyf='"+safetyT+"' data-iscdrh='" + isCdrh + "' data-isenable='" + isEnable + "' data-issafety='" + isSafety + "'><span class='symbol'>" + currSymbol_name + "</span> - <span class='description'>" + currDescription + "</span><span class='type'>" + currType + "</span><span class='result green'>TEST OK</span></div>";
+            if(SRTLfinalTest == 1){
+                line = "<div class='line' data-standard='" + currStandardName + "' data-issrtl='1' data-enablesrtl= '"+currEnableSRTL+"' data-safetysrtl= '"+currSafetySRTL+"' data-enablesrtlrel= '"+currEnableSRTLrel+"' data-safetysrtlrel= '"+currSafetySRTL+"' data-enablef='" + enableF + "' data-enablet='" + enableT + "' data-enablefrel='" + enableFrel + "' data-enabletrel='" + enableTrel + "' data-safetyf='"+safetyF+"' data-safetyt='"+safetyT+"' data-safetyfrel='"+safetyFrel+"' data-safetytrel='"+safetyTrel+"' data-iscdrh='" + isCdrh + "' data-isenable='" + isEnable + "' data-issafety='" + isSafety + "'><span class='symbol'>" + currSymbol_name + "</span> - <span class='description'>" + currDescription + "</span><span class='type'>" + currType + "</span><span class='result green'>TEST OK</span></div>";
+            }else{
+                line = "<div class='line' data-standard='" + currStandardName + "' data-issrtl='0' data-enablesrtl= '' data-safetysrtl= '' data-enablesrtlrel= '' data-safetysrtlrel= '' data-enablef='" + enableF + "' data-enablet='" + enableT + "' data-enablefrel='" + enableFrel + "' data-enabletrel='" + enableTrel + "' data-safetyf='"+safetyF+"' data-safetyt='"+safetyT+"' data-safetyfrel='"+safetyFrel+"' data-safetytrel='"+safetyTrel+"' data-iscdrh='" + isCdrh + "' data-isenable='" + isEnable + "' data-issafety='" + isSafety + "'><span class='symbol'>" + currSymbol_name + "</span> - <span class='description'>" + currDescription + "</span><span class='type'>" + currType + "</span><span class='result green'>TEST OK</span></div>";
+            }
             if (isEnable == 1) {
                 waitingEnableAndSafety = 0;
                 sendSignalPic("2");
@@ -2945,8 +3028,12 @@ $(document).ready(function (){
                 sendSignalPic("2");
             }
         } else {
-            line = "<div class='line' data-standard='" + currStandardName + "' data-enablef='" + enableF + "' data-enablet='" + enableT + "' data-safetyf='"+safetyF+"' data-safetyf='"+safetyT+"' data-iscdrh='" + isCdrh + "' data-isenable='" + isEnable + "' data-issafety='" + isSafety + "'><span class='symbol'>" + currSymbol_name + "</span> - <span class='description'>" + currDescription + "</span><span class='type'>" + currType + "</span><span class='result red'>TEST FAIL</span></div>";
-            errorTestFinal++;
+            if(SRTLfinalTest == 1){
+                line = "<div class='line' data-standard='" + currStandardName + "' data-issrtl='1' data-enablesrtl= '"+currEnableSRTL+"' data-safetysrtl= '"+currSafetySRTL+"' data-enablesrtlrel= '"+currEnableSRTLrel+"' data-safetysrtlrel= '"+currSafetySRTLrel+"' data-enablef='" + enableF + "' data-enablet='" + enableT + "' data-enablefrel='" + enableFrel + "' data-enabletrel='" + enableTrel + "' data-safetyf='"+safetyF+"' data-safetyt='"+safetyT+"' data-safetyfrel='"+safetyFrel+"' data-safetytrel='"+safetyTrel+"' data-iscdrh='" + isCdrh + "' data-isenable='" + isEnable + "' data-issafety='" + isSafety + "'><span class='symbol'>" + currSymbol_name + "</span> - <span class='description'>" + currDescription + "</span><span class='type'>" + currType + "</span><span class='result red'>TEST FAIL</span></div>";
+            }else{
+                line = "<div class='line' data-standard='" + currStandardName + "' data-issrtl='0' data-enablesrtl= '' data-safetysrtl= '' data-enablesrtlrel= '' data-safetysrtlrel= '' data-enablef='" + enableF + "' data-enablet='" + enableT + "' data-enablefrel='" + enableFrel + "' data-enabletrel='" + enableTrel + "' data-safetyf='"+safetyF+"' data-safetyt='"+safetyT+"' data-safetyfrel='"+safetyFrel+"' data-safetytrel='"+safetyTrel+"' data-iscdrh='" + isCdrh + "' data-isenable='" + isEnable + "' data-issafety='" + isSafety + "'><span class='symbol'>" + currSymbol_name + "</span> - <span class='description'>" + currDescription + "</span><span class='type'>" + currType + "</span><span class='result red'>TEST FAIL</span></div>";
+            }
+                errorTestFinal++;
             if (isEnable == 1) {
                 waitingEnableAndSafety = 0;
                 sendSignalPic("2");
@@ -3001,6 +3088,7 @@ $(document).ready(function (){
                     pressValueContinue = 0;
                     releaseValueContinue = 0;
                     hardwareValidation = 0;
+                    hardwareValidationReleased = 0;
                     validateTest = 0;
                     waitingAction = "";
                     nextStepFinal("ok");
@@ -3052,9 +3140,18 @@ $(document).ready(function (){
         var enableT;
         var safetyF;
         var safetyT;
+        var enableFrel;
+        var enableTrel;
+        var safetyFrel;
+        var safetyTrel;
         var isCdrh;
         var isEnable = 0;
         var isSafety = 0;
+        var isSRTL = 0;
+        var enableSRTL = 0;
+        var safetySRTL = 0;
+        var enableSRTLrel = 0;
+        var safetySRTLrel = 0;
         
         var currentdate = new Date();
         var day = currentdate.getDate(); if (String(day).length <=1){day = "0"+day};
@@ -3073,11 +3170,20 @@ $(document).ready(function (){
             enableT = $(this).data('enablet');
             safetyF = $(this).data('safetyf');
             safetyT = $(this).data('safetyt');
+            enableSRTL = $(this).data('enablesrtl');
+            safetySRTL = $(this).data('safetysrtl');
+            enableFrel = $(this).data('enablefrel');
+            enableTrel = $(this).data('enabletrel');
+            safetyFrel = $(this).data('safetyfrel');
+            safetyTrel = $(this).data('safetytrel');
+            enableSRTLrel = $(this).data('enablesrtlrel');
+            safetySRTLrel = $(this).data('safetysrtlrel');
             isCdrh = $(this).data('iscdrh');
             isEnable = $(this).data('isenable');
             isSafety = $(this).data('issafety');
+            isSRTL = $(this).data('issrtl');
 
-            jsonLogFinal.push({name: name, standard_name: standardName, description: description, type: type, result: result, enable_freq: enableF, enable_tens: enableT, safety_freq: enableF, safety_tens: enableT, is_cdrh: isCdrh, is_enable: isEnable, is_safety: isSafety});
+            jsonLogFinal.push({name: name, standard_name: standardName, description: description, type: type, result: result, enable_freq: enableF, enable_freq_rel:enableFrel, enable_tens: enableT, enable_tens_rel:enableTrel, safety_freq: enableF, safety_freq_rel:safetyFrel, safety_tens: enableT,safety_tens_rel:safetyTrel, is_cdrh: isCdrh, is_enable: isEnable, is_safety: isSafety, is_srtl:isSRTL, safety_srtl:safetySRTL, safety_srtl_rel:safetySRTLrel, enable_srtl:enableSRTL, enable_srtl_rel:enableSRTLrel});
         });
         jsonLogFinal = JSON.stringify(jsonLogFinal);
         console.log(jsonLogFinal);
@@ -3086,16 +3192,16 @@ $(document).ready(function (){
         $.ajax({
             type: "POST",
             url: "php/api.php?function=save_log_final",
-            data: {jsonlog: jsonLogFinal, sn: serialNumber, pn: partNumber, sso: userSSO, FWfctV: FWfctV, FWcalibV: FWcalibV, SWv: SWv, enableTens: initial_enable_tens, enableFreq: initial_enable_freq, safetyTens:initial_safety_tens, safetyFreq:initial_safety_freq, alimTestbench: currGlobalVoltage, alimTsui: currTsuiVoltage, jsonCalibLog : calibLogJSON},
+            data: {jsonlog: jsonLogFinal, sn: serialNumber, pn: partNumber, sso: userSSO, FWfctV: FWfctV, FWcalibV: FWcalibV, SWv: SWv, enableTens: initial_enable_tens, enableFreq: initial_enable_freq, safetyTens:initial_safety_tens, safetyFreq:initial_safety_freq, alimTestbench: currGlobalVoltage, alimTsui: currTsuiVoltage, jsonCalibLog : calibLogJSON, isSRTL:SRTLfinalTest, shouldHaveSRTL:shouldHaveSRTL, initialSafetySRTL:initial_safety_srtl, initialEnableSRTL:initial_enable_srtl},
             success: function (msg) {
                 alert("Your log has been saved.");
-                printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens, calibLogJSON, datetime);
+                printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens, calibLogJSON, datetime, SRTLfinalTest, shouldHaveSRTL, initial_safety_srtl, initial_enable_srtl);
             }
         });
     }
 
     //Generation du rapport de test et affichage de la fenetre d'impression 
-    function printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens, calibLogJSON, datetime) {
+    function printJsonLogFinal(jsonLogFinal, serialNumber, partNumber, userSSO, FWfctV, FWcalibV, SWv, currGlobalVoltage, currTsuiVoltage, initial_enable_freq, initial_enable_tens, initial_safety_freq, initial_safety_tens, calibLogJSON, datetime, SRTLfinalTest, shouldHaveSRTL, initial_safety_srtl, initial_enable_srtl) {
         var msg = JSON.parse(jsonLogFinal);
         var msgCalib = JSON.parse(calibLogJSON);
         var lineButton = "";
@@ -3107,13 +3213,24 @@ $(document).ready(function (){
         var lineCalib = "";
         var counterCalibServ = 0;
         var counterCalibSwitch = 0;
-        var lineCalibJoystick = "<h4>Joysticks calibration</h4><h5>Test is PASS when axis raw value is in the range of acceptance from database. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Raw Data</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Zero Range</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Axis Range</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
-        var lineCalibService = "<h4>Service button</h4><h5>Test is PASS when user correctly checks press/release actions on the button. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
-        var lineCalibSwitch = "<h4>Switch position</h4><h5>Test is PASS when user correctly checks switch positions. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
+        var lineCalibJoystick = "<h4>Joysticks calibration</h4><h5>Test is PASS when axis raw value is in the range of acceptance from database. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Raw Data</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Zero Range</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Axis Range</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
+        var lineCalibService = "<h4>Service button</h4><h5>Test is PASS when user correctly checks press/release actions on the button. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
+        var lineCalibSwitch = "<h4>Switch position</h4><h5>Test is PASS when user correctly checks switch positions. </h5><div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Action</b></span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Result</b></span></div>";
         var lsl = 21.6;
         var usl = 26.4;
         var testAlimGlobal;
         var testAlimTSUI;
+        
+        if(shouldHaveSRTL == 0 || shouldHaveSRTL == "0"){
+            var shouldHaveSRTLtxt = "No";
+        }else{
+            var shouldHaveSRTLtxt = "Yes";
+        }
+        if(SRTLfinalTest == 0 || SRTLfinalTest == "0"){
+            var SRTLfinalTesttxt = "FAIL";
+        }else{
+            var SRTLfinalTesttxt = "PASS";
+        }
         
         if (currGlobalVoltage != "undefined" && currTsuiVoltage) {
             currGlobalVoltage = parseFloat(currGlobalVoltage).toFixed(2);
@@ -3144,44 +3261,78 @@ $(document).ready(function (){
                 msg[i].result = "PASS";
             }else{
                 msg[i].result = "FAIL";
-            }
-            console.log('trying to write a line'+msg[i].name + " "+ msg[i].result+" "+msg[i].type+ " "+ msg[i].is_safety);
+            }            
             if (msg[i].type == "button" && msg[i].is_safety == "0") {
-                if (msg[i].enable_tens !== "") {
-                    var enabletens = msg[i].enable_tens.toFixed(2) + "V"
-                } else {
-                    var enabletens = ""
-                }
-                if (msg[i].enable_freq !== "") {
-                    var enablefreq = msg[i].enable_freq + "Hz / "
-                } else {
-                    var enablefreq = ""
-                }
+                if(msg[i].is_srtl =="1"){                    
+                        var enabletens = msg[i].enable_srtl;                    
+                        var enablefreq = ""; 
+                        var enabletensrel = msg[i].enable_srtl_rel;                    
+                        var enablefreqrel = ""; 
+                }else{
+                    if (msg[i].enable_tens !== "") {
+                        var enabletens = msg[i].enable_tens.toFixed(2) + "V"
+                    } else {
+                        var enabletens = ""
+                    }
+                    if (msg[i].enable_tens_rel !== "") {
+                        var enabletensrel = msg[i].enable_tens_rel.toFixed(2) + "V"
+                    } else {
+                        var enabletensrel = ""
+                    }
+                    if (msg[i].enable_freq !== "") {
+                        var enablefreq = msg[i].enable_freq + "Hz / "
+                    } else {
+                        var enablefreq = ""
+                    }
+                    if (msg[i].enable_freq_rel !== "") {
+                        var enablefreqrel = msg[i].enable_freq_rel + "Hz / "
+                    } else {
+                        var enablefreqrel = ""
+                    }
+                }                
+                
                 if (msg[i].is_enable == 0) {
                     msg[i].is_enable = "N"
                 } else {
                     msg[i].is_enable = "Y"
-                }
-                
+                }                
                 if (msg[i].is_cdrh == 0) {
                     msg[i].is_cdrh = "N"
                 } else {
                     msg[i].is_cdrh = "Y"
                 }
                 var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PRESS</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>" + msg[i].result + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + enablefreq + enabletens + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_enable + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;border-left:1px solid black;'>" + msg[i].is_cdrh + "</span></div>"
-                line += "<div style='margin-bottom:2px;border-bottom:1px solid grey;padding-bottom:2px;'><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>RELEASE</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>" + msg[i].result + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'></span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_enable + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;border-left:1px solid black;'>" + msg[i].is_cdrh + "</span></div>"
+                line += "<div style='margin-bottom:2px;border-bottom:1px solid grey;padding-bottom:2px;'><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>RELEASE</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>" + msg[i].result + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + enablefreqrel + enabletensrel + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_enable + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;border-left:1px solid black;'>" + msg[i].is_cdrh + "</span></div>"
                 lineButton += line;
             }
             if (msg[i].type == "button" && msg[i].is_safety == "1") {
-                if (msg[i].safety_tens !== "") {
-                    var safetytens = msg[i].safety_tens.toFixed(2) + "V"
-                } else {
-                    var safetytens = ""
-                }
-                if (msg[i].safety_freq !== "") {
-                    var safetyfreq = msg[i].safety_freq + "Hz / "
-                } else {
-                    var safetyfreq = ""
+                 if(msg[i].is_srtl == "1"){                    
+                    var safetytens = msg[i].safety_srtl;                    
+                    var safetyfreq = ""; 
+                    var safetytensrel = msg[i].safety_srtl_rel;                    
+                    var safetyfreqrel = ""; 
+                }else{
+                    //alert(msg[i].safety_tens_rel + " "+msg[i].safety_freq_rel);
+                    if (msg[i].safety_tens !== "") {
+                        var safetytens = msg[i].safety_tens.toFixed(2) + "V"
+                    } else {
+                        var safetytens = ""
+                    }
+                    if (msg[i].safety_tens_rel !== "" ) {
+                        var safetytensrel = msg[i].safety_tens_rel + "V"
+                    } else {
+                        var safetytensrel = ""
+                    }
+                    if (msg[i].safety_freq !== "") {
+                        var safetyfreq = msg[i].safety_freq + "Hz / "
+                    } else {
+                        var safetyfreq = ""
+                    }
+                    if (msg[i].safety_freq_rel !== "" ) {
+                        var safetyfreqrel = msg[i].safety_freq_rel + "Hz / "
+                    } else {
+                        var safetyfreqrel = ""
+                    }
                 }
                 if (msg[i].is_safety == 0) {
                     msg[i].is_safety = "N"
@@ -3195,7 +3346,7 @@ $(document).ready(function (){
                 }
                 
                 var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PRESS</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>" + msg[i].result + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + safetyfreq + safetytens + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_safety + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;border-left:1px solid black;'>" + msg[i].is_cdrh + "</span></div>"
-                line += "<div style='margin-bottom:2px;border-bottom:1px solid grey;padding-bottom:2px;'><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>RELEASE</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>" + msg[i].result + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'></span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_safety + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;border-left:1px solid black;'>" + msg[i].is_cdrh + "</span></div>"
+                line += "<div style='margin-bottom:2px;border-bottom:1px solid grey;padding-bottom:2px;'><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msg[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>RELEASE</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>" + msg[i].result + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + safetyfreqrel + safetytensrel + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + msg[i].is_safety + "</span><span style='text-align:center;display:inline-block;vertical-align:top;width:50px;margin-left:5px;border-left:1px solid black;'>" + msg[i].is_cdrh + "</span></div>"
                 lineSafety += line;
             }
             if (msg[i].type == "led") {
@@ -3265,14 +3416,14 @@ $(document).ready(function (){
         }
         for (var i = 0; i < msgCalib.length; i++){            
             if(msgCalib[i].type == "joystick"){
-                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'> "+msgCalib[i].minZero+"  - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>";
+                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+msgCalib[i].description+"</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'> "+msgCalib[i].minZero+"  - | "+msgCalib[i].maxZero+" |</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>| "+msgCalib[i].minAxis+" | - | "+msgCalib[i].maxAxis+" |</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>PASS</span></div>";
                 lineCalibJoystick += line;
             }else if(msgCalib[i].type == "service"){
-                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>";
+                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+msgCalib[i].description+"</span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>";
                 lineCalibService += line;
                 counterCalibServ++;
             }else if(msgCalib[i].type == "switch"){
-                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'>"+msgCalib[i].description+"</span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>";
+                var line = "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].name + "</span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>" + msgCalib[i].standard_name + "</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+msgCalib[i].description+"</span></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'>"+msgCalib[i].result+"</span></div>";
                 lineCalibSwitch += line;
                 counterCalibSwitch++;
             }            
@@ -3285,31 +3436,38 @@ $(document).ready(function (){
         }
         lineCalib += lineCalibJoystick;
         
-        
-        
+        var lineInitial ="";
+        if(shouldHaveSRTL == 0 || shouldHaveSRTL == "0"){
+            lineInitial = "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'><b>Type</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measured Value</b></span></div>"
+                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable Frequency</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_freq+"Hz</span></div>"
+                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable Voltage</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_tens+"V</span></div>"
+                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Safety Frequency</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_safety_freq+"Hz</span></div>"
+                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Safety Voltage</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_safety_tens+"V</span></div>";
+        }else{
+            lineInitial = "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'><b>Type</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Value</b></span></div>"
+            + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Test SRTL</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+SRTLfinalTesttxt+"</span></div>"
+            + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable SRTL</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_srtl+"</span></div>"
+            + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Safety SRTL</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_safety_srtl+"</span></div>"
+        }
         
         var myWindow = window.open('', '', 'width=1000,height=800');
         myWindow.document.write(
                 "<h2>FINAL TEST LOG RECORD - " + datetime + "</h2>"
                 + "<div style='border:1px solid black;padding:5px;'>"
-                + "<b>PN</b> : " + partNumber + " - <b>SN</b> : " + serialNumber + " - <b>SSO</b> : " + userSSO + " - <b>FW Fonct. V.</b> : " + FWfctV + " - <b>FW Calib. V.</b> : " + FWcalibV + " - <b>Software Version</b> : " + SWv + "</div>"
+                + "<b>PN</b> : " + partNumber + " - <b>SN</b> : " + serialNumber + " - <b>SSO</b> : " + userSSO + " - <b>FW Fonct. V.</b> : " + FWfctV + " - <b>FW Calib. V.</b> : " + FWcalibV + " - <b>Software Version</b> : " + SWv + " - <b>SRTL</b> : "+shouldHaveSRTLtxt+"</div>"
                 + "<h3>POWER TEST</h3><div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Type</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measured Value</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>LSL</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>USL</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>Pass/Fail</b></span></div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>V alimentation</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + currTsuiVoltage + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + lsl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + usl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + testAlimGlobal + "</span></div>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>V TSUI</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>" + currGlobalVoltage + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + lsl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + usl + "V</span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'>" + testAlimTSUI + "</span></div>"
                 + "</div>"                
                 + "<h3>INITIAL STATES</h3><div>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'><b>Type</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measured Value</b></span></div>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable Frequency</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_freq+"Hz</span></div>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Enable Voltage</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_enable_tens+"V</span></div>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Safety Frequency</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_safety_freq+"Hz</span></div>"
-                + "<div><span style='display:inline-block;vertical-align:top;width:150px;margin-left:5px;'>Safety Voltage</span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'>"+initial_safety_tens+"V</span></div>"
+                + "<div>"+lineInitial+"</div>"
                 + "<h3>BUTTONS</h3>"
-                + "<h5>Test is PASS when <b>CAN signal pressed</b> is present and <b>CAN signal released</b> is present.<br>When tested entry is <b>enable</b>, test is PASS if measured values are between 1800Hz-2200Hz and 22.6V-26.4V. </h5>"
+                + "<h5>Test is PASS when CAN signal press is present and CAN signal release is present.<br>When tested entry is Enable, test is PASS if measured values are between 1800Hz-2200Hz and 22.6V-26.4V.<b>If SRTL is active and tested entry is Enable, test is PASS if measured bit is 1 for press and 0 for release.</h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Action</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Test Result</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measure</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>Enable</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" +lineButton+"</div>"
                 + "<h3>EMERGENCY STOP (SAFETY LOOP)</h3>"
-                + "<h5>Test is PASS when <b>CAN signal pressed</b> is present and <b>CAN signal released</b> is present.<br>When tested entry is <b>safety</b>, test is PASS if measured values are 0Hz and 0V. </h5>"
+                + "<h5>Test is PASS when CAN signal press is present and CAN signal release is present.<br>When tested entry is Safety, test is PASS if measured values are 0Hz and 0V.<br>If SRTL is active and tested entry is Safety, test is PASS if measured bit is 1 for press and 1 for release.</h5>"
                 + "<div><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Name</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Ref. TST</b></span><span style='display:inline-block;vertical-align:top;width:75px;margin-left:5px;'><b>Action</b></span><span style='display:inline-block;vertical-align:top;width:100px;margin-left:5px;'><b>Test Result</b></span><span style='display:inline-block;vertical-align:top;width:120px;margin-left:5px;'><b>Measure</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>Safety</b></span><span style='display:inline-block;vertical-align:top;width:50px;margin-left:5px;'><b>CDRH</b></span></div>"
                 + "<div>" +lineSafety+"</div>"
                 + "<h3>BACKLIGHTS</h3>"
@@ -3344,27 +3502,83 @@ $(document).ready(function (){
             safetyT = currSafetyT;
             safetyF = currSafetyF;
             if((enableF >= 1800 && enableT <= 21.6) || ((enableF <= 1800 && enableT >= 21.6)) || ((enableF <= 1800 && enableT <= 21.6)) ){
-                hardwareValidation = 0;
-                //alert("error validation ENABLE : freq: "+enableF+" tens: "+enableT)
-            }else{
+                if(SRTLfinalTest == 1 && enableSRTLfinal == "1"){
+                    currEnableSRTL = "1";
+                    hardwareValidation = 1;
+                }else{
+                    currEnableSRTL = "0";
+                    hardwareValidation = 0;
+                }
+            }
+            else{
                 hardwareValidation = 1;
-                //alert("ok validation ENABLE : freq: "+enableF+" tens: "+enableT)
             }
         }else if(type== "safety"){
             enableF = currEnableF;
             enableT = currEnableT;
             safetyT = currSafetyT;
             safetyF = currSafetyF;
-            if((safetyF >= 200 && safetyT <= 2.4) || ((safetyF <= 200 && safetyT >= 2.4)) || ((safetyF >= 200 && safetyT >= 2.4)) ){
+            if((safetyF >= 200 && safetyT <= 2.4) || ((safetyF <= 200 && safetyT >= 2.4)) || ((safetyF >= 200 && safetyT >= 2.4)) ){                   
                 hardwareValidation = 0;
-                //alert("error validation SAFETY : "+safetyF, safetyT)
             }else{
-                hardwareValidation = 1;
-                //alert("ok validation SAFETY : "+enableF, enableT)
+                if(SRTLfinalTest == 1 && safetySRTLfinal == "1"){
+                    currSafetySRTL = "1";
+                    hardwareValidation = 1;
+                }else if(SRTLfinalTest == 1 && safetySRTLfinal == "0"){
+                    currSafetySRTL = "0";
+                    hardwareValidation = 0;
+                }else{
+                    hardwareValidation = 1;
+                }
             }
-        }
-        
-        console.log("on a set enableF :" + enableF + " et enableT :" + enableT+" et safetyT :" + safetyT+" et safetyF :" + safetyF);
+        }        
+    }
+    
+    function setEnableAndSafetyValuesRel(type) {
+        if(type== "enable"){
+            enableFrel = currEnableF;
+            enableTrel = currEnableT;
+            safetyTrel = currSafetyT;
+            safetyFrel = currSafetyF;
+            
+            if(enableFrel == 0 && enableTrel == 0){
+                if(SRTLfinalTest == 1 && enableSRTLfinal == "0"){
+                    currEnableSRTLrel = "0";
+                    hardwareValidationReleased = 1;
+                }else if(SRTLfinalTest == 1 && enableSRTLfinal == "1"){
+                    currEnableSRTLrel = "1";
+                    hardwareValidationReleased = 0;
+                }else{
+                    hardwareValidationReleased = 1;
+                }
+            }
+            else{
+                hardwareValidationReleased = 0;
+            }
+        }else if(type== "safety"){
+            enableFrel = currEnableF;
+            enableTrel = currEnableT;
+            
+            safetyTrel = currSafetyT;
+            safetyFrel = currSafetyF;
+            console.log("on entre dans la fct avec les valeurs sTens: "+safetyTrel+" et sFreq: "+safetyFrel+"  ===================================================="); 
+            if((safetyTrel == 0 && safetyFrel == 0) || (safetyTrel == "0" && safetyFrel == "0")){
+                if(SRTLfinalTest == 1 && safetySRTLfinal == "1"){
+                    currSafetySRTLrel = "1";
+                    hardwareValidationReleased = 1;
+                }else if(SRTLfinalTest == 1 && safetySRTLfinal == "0"){
+                    currSafetySRTLrel = "0";
+                    hardwareValidationReleased = 0;
+                }else{
+                    console.log("on entre dans la fct et on valide le hw rel  ===================================================="); 
+                    hardwareValidationReleased = 1;
+                }
+            }
+            else{
+                console.log("on entre dans la fct et on ne valide PAS le hw rel  ===================================================="); 
+                hardwareValidationReleased = 0;
+            }
+        }        
     }
 
 
@@ -3463,49 +3677,87 @@ $(document).ready(function (){
         mushroomCalculation(subindex, id)
     }
     function mushroomCalculation(subindex, identifier) {
+        $(".bloc_calibrate.id" + identifier).find(".validate_calib").off();
         $(".bloc_calibrate.id" + identifier).find(".status_calib").html("FixSlope & ZeroDead");
         $(".bloc_calibrate.id" + identifier).find(".action_calib").html("<img src='images/zero_arrow.png'>");
         $(".bloc_calibrate.id" + identifier).find(".validate_calib").on('click', function () {
             var zeroDeadXaxisSignal = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "05" + Cal_completion;
             sendSignal(zeroDeadXaxisSignal);
+            waitCalibResponse = cobID1;
+            setTimeout(function () {
+                var zeroDeadX = finalResponseData;
+                $(".mushroom_verify.id"+identifier).find(".zero_dead_x").html(convertHexa2(zeroDeadX));
+                
+                var zeroDeadYaxisSignal = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "06" + Cal_completion;
+                sendSignal(zeroDeadYaxisSignal);
+                waitCalibResponse = cobID1;
+                setTimeout(function () {
+                    var zeroDeadY = finalResponseData;
+                    $(".mushroom_verify.id"+identifier).find(".zero_dead_y").html(convertHexa2(zeroDeadY));
+                    
+                    var fixSlopeX = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "09" + Cal_completion;
+                    sendSignal(fixSlopeX);
+                    waitCalibResponse = cobID1;
+                    setTimeout(function () {
+                        var fixSlopeXresp = finalResponseData;
+                        $(".mushroom_verify.id"+identifier).find(".fix_slope_x").html(convertHexa2(fixSlopeXresp));
+                        
+                        var fixSlopeY = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "0a" + Cal_completion;
+                        sendSignal(fixSlopeY);
+                        waitCalibResponse = cobID1;
+                        setTimeout(function () {
+                            var fixSlopeYresp = finalResponseData;
+                            $(".mushroom_verify.id"+identifier).find(".fix_slope_y").html(convertHexa2(fixSlopeYresp));
+                            
+                        }, 200);
+                    }, 200);
+                }, 200);
+             }, 200);
+             
+            
 
-            var zeroDeadYaxisSignal = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "06" + Cal_completion;
-            sendSignal(zeroDeadYaxisSignal);
+           
 
-            var fixSlopeX = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "09" + Cal_completion;
-            sendSignal(fixSlopeX);
-
-            var fixSlopeY = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "10" + Cal_completion;
-            sendSignal(fixSlopeY);
-
-            mushroomZeroPosAcquisition(subindex, identifier);
+            
+            console.log("on a envoyé les 4 messages de debut");
+            setTimeout(function(){
+                mushroomZeroPosAcquisition(subindex, identifier);
+            },500)
+            
 
         });
     }
     function mushroomZeroPosAcquisition(subindex, identifier) {
+        $(".bloc_calibrate.id" + identifier).find(".validate_calib").off();
         $(".bloc_calibrate.id" + identifier).find(".status_calib").html("Set Zero Position");
         $(".bloc_calibrate.id" + identifier).find(".action_calib").html("<img src='images/zero_arrow.png'>");
         $(".bloc_calibrate.id" + identifier).find(".validate_calib").on('click', function () {
-            var axisRawSignalX = Cal_post + Cal_dlc + cobID2 + Cal_data_pre + "01" + Cal_completion;
+            var axisRawSignalX = Cal_post + Cal_dlc + cobID2 + "400154" + "01";
+            console.log("ping 01 axisrawX");
             sendSignal(axisRawSignalX);
             waitCalibResponse = cobID1;
 
             setTimeout(function () {
                 axisRawZeroLong = finalResponseData;
-                var newSignal = signalComposer(axisRawZeroLong, subindex, "03"); //param = response + header for zero long                
+                var newSignal = signalComposer(axisRawZeroLong, subindex, "03"); //param = response + header for zero long 
+                console.log("lecture ping 01 axisrawX + envoi sur 03");
                 sendSignal(newSignal);
-                console.log("1er signal X envoyé");
+                $(".mushroom_verify.id"+identifier).find(".axis_raw_x").html(convertHexa2(axisRawZeroLong));
+                
                 setTimeout(function () {
-                    var axisRawSignalY = Cal_post + Cal_dlc + cobID2 + Cal_data_pre + "02" + Cal_completion;
+                    var axisRawSignalY = Cal_post + Cal_dlc + cobID2 + "400154" + "02";
+                    console.log("ping 02 axisrawY");
                     sendSignal(axisRawSignalY);
 
                     waitCalibResponse = cobID1;
 
                     setTimeout(function () {
                         axisRawZeroLat = finalResponseData;
-                        var newSignal = signalComposer(axisRawZeroLat, subindex, "04"); //param = response + header for zero long                
+                        console.log("lecture ping 02 axisrawX + envoi sur 04");
+                        var newSignal = signalComposer(axisRawZeroLat, subindex, "04"); //param = response + header for zero long   
                         sendSignal(newSignal);
-                        console.log("2eme signal Y envoyé");
+                        $(".mushroom_verify.id"+identifier).find(".axis_raw_y").html(convertHexa2(axisRawZeroLat));
+                        
                         resetCalibration(identifier);
 
                     }, 200);
@@ -3517,6 +3769,8 @@ $(document).ready(function (){
 
         });
     }
+
+
     function signalComposer(response, header, subIndex) {
         var newSignal;
         if (response.length == 2) {
@@ -3562,8 +3816,6 @@ $(document).ready(function (){
                     sendSignal(newSignal);
                     calibrateMaxLong(subindexX, subindexY, identifier);
                 }
-                ;
-
 
             }, 200);
         });
@@ -4032,6 +4284,19 @@ $(document).ready(function (){
             pingGetAxisValue(subindexX, subindexY, identifier);
         }, 200);
     }
+    function startVerifyCalibrationMushroom(subindex, identifier) {
+        $(".id" + identifier).addClass("blink_me");
+        $(".verify_calibration.id" + identifier).addClass("hidden");
+        $(".stop_calibration_verif.id" + identifier).removeClass("hidden");
+        currentIdentifier = identifier;
+        currentSubindex = subindex;
+
+        _MODE = "CALIBRATION_VERIFY_MUSHROOM";
+        clearInterval(intervalVerify);
+        intervalVerify = setInterval(function () {
+            pingGetAxisValueMushroom(subindex, identifier);
+        }, 200);
+    }
     function stopVerifyCalibration(identifier) {
         $(".verify_calibration.id" + identifier).removeClass("hidden");
         $(".stop_calibration_verif.id" + identifier).addClass("hidden");
@@ -4101,6 +4366,12 @@ $(document).ready(function (){
             var axisRawVerifSignalY = Cal_post + Cal_dlc + cobID2 + "400165" + subindexY + "00000000";
             sendSignal(axisRawVerifSignalY);
         }
+    }
+    function pingGetAxisValueMushroom(subindex, identifier) {        
+            var axisRawVerifSignalX = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "01";
+            sendSignal(axisRawVerifSignalX);               
+            var axisRawVerifSignalY = Cal_post + Cal_dlc + cobID2 + "40" + subindex + "02";
+            sendSignal(axisRawVerifSignalY);       
     }
     
     $(".reset_calibration_verif").on('click', function () {
@@ -4870,6 +5141,8 @@ $(document).ready(function (){
                         + "<span class='type_history'>" + activeSearchHistoryResult[index].type + "</span>"
                         + "<span class='data_history'><img src='images/open_file.png'></span>"
                         + "<span class='date_history'>" + activeSearchHistoryResult[index].date + "</span>"
+                        + "<span class='json_history hidden'>" + activeSearchHistoryResult[index].json_log + "</span>"
+                        + "<span class='jsoncalib_history hidden'>" + activeSearchHistoryResult[index].json_calib_log + "</span>"
                         + "</div>";
                 $(".history_table .content_history_table").append(lineHistory);
             }
@@ -4938,8 +5211,12 @@ $(document).ready(function (){
                 var sw_version = data[0].sw_version;
                 var type = data[0].type;
                 var user_sso = data[0].user_sso;
+                var SRTLfinalTest = data[0].is_SRTL;
+                var shouldHaveSRTL = data[0].should_have_SRTL;
+                var initial_safety_srtl = data[0].initial_safety_SRTL;
+                var initial_enable_srtl = data[0].initial_enable_SRTL;
                 
-                printJsonLogFinal(json_log, serial_number, part_number, user_sso, fw_fct_version, fw_calib_version, sw_version, alim_testbench, alim_tsui, enable_freq, enable_tens, safety_freq, safety_tens, json_calib_log, date)
+                printJsonLogFinal(json_log, serial_number, part_number, user_sso, fw_fct_version, fw_calib_version, sw_version, alim_testbench, alim_tsui, enable_freq, enable_tens, safety_freq, safety_tens, json_calib_log, date, SRTLfinalTest, shouldHaveSRTL, initial_safety_srtl, initial_enable_srtl)
             }
         });
     }
@@ -4982,7 +5259,9 @@ $(document).ready(function (){
             var lineSSO = $(this).find(".sso_history").html();
             var lineType = $(this).find(".type_history").html();
             var lineDate = $(this).find(".date_history").html();
-            jsonExcel.push({id: lineID, part_number: linePN, serial_number: lineSN, user_sso: lineSSO, type: lineType, date: lineDate});
+            var lineJson = $(this).find(".json_history").html();
+            var lineJsonCalib = $(this).find(".jsoncalib_history").html();
+            jsonExcel.push({id: lineID, part_number: linePN, serial_number: lineSN, user_sso: lineSSO, type: lineType, date: lineDate, json:lineJson, jsonCalib:lineJsonCalib});
         });
         jsonExcel = JSON.stringify(jsonExcel);
         console.log(jsonExcel);
@@ -4997,7 +5276,9 @@ $(document).ready(function (){
             "serial_number": "String",
             "user_sso": "String",
             "type": "String",
-            "date": "String"
+            "date": "String",
+            "json": "String",
+            "jsonCalib": "String"
         };
 
         emitXmlHeader = function () {
@@ -5369,6 +5650,10 @@ $(document).ready(function (){
                     var sign = "002400806d68d7551407f09b861e3aad000549a844080000" + cobID2 + "2f01300101000000";
                     sendSignal(sign);
                 },4000)                    
+            }else{
+                setTimeout(function(){
+                    sendSignal(startNodeMsg);                    
+                },4000)     
             }
         } else {
             $(this).addClass("on");
@@ -5380,6 +5665,10 @@ $(document).ready(function (){
                     var sign = "002400806d68d7551407f09b861e3aad000549a844080000" + cobID2 + "2f01300101000000";
                     sendSignal(sign);
                 },4000)                    
+            }else{
+                setTimeout(function(){
+                    sendSignal(startNodeMsg);                    
+                },4000)    
             }
             setTimeout(function () {
                 if (hasSRTL == 0) {
@@ -5465,6 +5754,8 @@ $(document).ready(function (){
             console.log(jsonData);        
             ws.send(jsonData);
         }else{
+            var jsonData = '{"type":"signal", "msg":"' + signal + '"}';
+            console.log(jsonData);    
             alert("Error : invalid format message, sending aborted to prevent Gateway corruption. "+signal.substring(42, signal.length));
         }
     }

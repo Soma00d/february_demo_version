@@ -109,8 +109,13 @@ $saveLogPretest = function ($connexion) {
     $safety_tens = 0;
     $safety_freq = 0;   
     
+    $is_srtl = 0;
+    $should_have_srtl = 0;
+    $initial_safety_srtl = 0;
+    $initial_enable_srtl = 0;
     
-    $stmt = $connexion->prepare("INSERT INTO global_log (json_log, json_calib_log, part_number, serial_number, user_sso, role, type, fw_fct_version, fw_calib_version, sw_version, alim_tsui, alim_testbench, enable_tens, enable_freq,safety_tens, safety_freq, date) VALUES (:jsonlog, :jsoncaliblog, :partnumber, :serialnumber, :user_sso, :role, :type,:fwfctv, :fwcalibv, :swv, :alimtsui, :alimtestbench, :enabletens, :enablefreq, :safetytens, :safetyfreq, NOW())");
+    
+    $stmt = $connexion->prepare("INSERT INTO global_log (json_log, json_calib_log, part_number, serial_number, user_sso, role, type, fw_fct_version, fw_calib_version, sw_version, alim_tsui, alim_testbench, enable_tens, enable_freq,safety_tens, safety_freq, date, is_SRTL, should_have_SRTL, initial_safety_SRTL, initial_enable_SRTL) VALUES (:jsonlog, :jsoncaliblog, :partnumber, :serialnumber, :user_sso, :role, :type,:fwfctv, :fwcalibv, :swv, :alimtsui, :alimtestbench, :enabletens, :enablefreq, :safetytens, :safetyfreq, NOW(), :issrtl,:shouldhavesrtl,:initialsafetysrtl,:initialenablesrtl)");
     $stmt->bindParam(':jsonlog', $jsonlog);
     $stmt->bindParam(':jsoncaliblog', $jsoncaliblog);
     $stmt->bindParam(':partnumber', $pn);
@@ -127,6 +132,10 @@ $saveLogPretest = function ($connexion) {
     $stmt->bindParam(':enablefreq', $enable_freq);
     $stmt->bindParam(':safetytens', $safety_tens);
     $stmt->bindParam(':safetyfreq', $safety_freq);
+    $stmt->bindParam(':issrtl', $is_srtl);
+    $stmt->bindParam(':shouldhavesrtl', $should_have_srtl);
+    $stmt->bindParam(':initialsafetysrtl', $initial_safety_srtl);
+    $stmt->bindParam(':initialenablesrtl', $initial_enable_srtl);
     
     $stmt->execute();
     
@@ -152,9 +161,15 @@ $saveLogFinal = function ($connexion) {
     $enable_tens = $_POST['enableTens'];
     $enable_freq = $_POST['enableFreq'];
     $safety_tens = $_POST['safetyTens'];
-    $safety_freq = $_POST['safetyFreq'];
+    $safety_freq = $_POST['safetyFreq'];    
+   
+    $is_srtl = $_POST['isSRTL'];
+    $should_have_srtl = $_POST['shouldHaveSRTL'];
+    $initial_safety_srtl = $_POST['initialSafetySRTL'];
+    $initial_enable_srtl = $_POST['initialEnableSRTL'];
+    
 
-    $stmt = $connexion->prepare("INSERT INTO global_log (json_log, json_calib_log, part_number, serial_number, user_sso, role, type, fw_fct_version, fw_calib_version, sw_version, alim_tsui, alim_testbench, enable_tens, enable_freq,safety_tens, safety_freq, date) VALUES (:jsonlog, :jsoncaliblog, :partnumber, :serialnumber, :user_sso, :role, :type,:fwfctv, :fwcalibv, :swv, :alimtsui, :alimtestbench, :enabletens, :enablefreq, :safetytens, :safetyfreq, NOW())");
+    $stmt = $connexion->prepare("INSERT INTO global_log (json_log, json_calib_log, part_number, serial_number, user_sso, role, type, fw_fct_version, fw_calib_version, sw_version, alim_tsui, alim_testbench, enable_tens, enable_freq,safety_tens, safety_freq, date, is_SRTL, should_have_SRTL, initial_safety_SRTL, initial_enable_SRTL ) VALUES (:jsonlog, :jsoncaliblog, :partnumber, :serialnumber, :user_sso, :role, :type,:fwfctv, :fwcalibv, :swv, :alimtsui, :alimtestbench, :enabletens, :enablefreq, :safetytens, :safetyfreq, NOW(), :issrtl,:shouldhavesrtl,:initialsafetysrtl,:initialenablesrtl)");
     $stmt->bindParam(':jsonlog', $jsonlog);
     $stmt->bindParam(':jsoncaliblog', $jsoncaliblog);
     $stmt->bindParam(':partnumber', $pn);
@@ -170,7 +185,11 @@ $saveLogFinal = function ($connexion) {
     $stmt->bindParam(':enabletens', $enable_tens);
     $stmt->bindParam(':enablefreq', $enable_freq);
     $stmt->bindParam(':safetytens', $safety_tens);
-    $stmt->bindParam(':safetyfreq', $safety_freq);
+    $stmt->bindParam(':safetyfreq', $safety_freq);    
+    $stmt->bindParam(':issrtl', $is_srtl);
+    $stmt->bindParam(':shouldhavesrtl', $should_have_srtl);
+    $stmt->bindParam(':initialsafetysrtl', $initial_safety_srtl);
+    $stmt->bindParam(':initialenablesrtl', $initial_enable_srtl);
 
     $stmt->execute();
 };

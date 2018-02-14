@@ -1311,13 +1311,13 @@ and open the template in the editor.
 #content_calibration .realtime_joysticks_val .bloc_raw_data .bloc_left_joy {
   text-align: left;
   margin-right: 10px;
-  width: 100px;
+  width: 120px;
   margin-bottom: 5px;
 }
 /* line 204, ../sass/_calibration.scss */
 #content_calibration .realtime_joysticks_val .bloc_raw_data .bloc_right_joy {
   text-align: left;
-  width: 100px;
+  width: 120px;
 }
 /* line 210, ../sass/_calibration.scss */
 #content_calibration .statut_calibration_verif {
